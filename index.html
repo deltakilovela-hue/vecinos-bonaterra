@@ -118,6 +118,7 @@ section{scroll-margin-top:70px}
 @media (min-width:820px){
   .bento{grid-template-columns:2fr 1fr 1fr;grid-auto-rows:minmax(170px,auto)}
   .tile.casa{grid-column:1;grid-row:span 2;min-height:auto}
+  .tile.care{grid-column:2 / 4}
   .tile.casa h3{font-size:2.6rem}
 }
 
@@ -174,6 +175,22 @@ section{scroll-margin-top:70px}
 .casa-hero .steps{display:flex;gap:8px;flex-wrap:wrap;margin-top:18px;position:relative}
 .casa-hero .steps span{background:rgba(255,255,255,.16);padding:7px 12px;border-radius:999px;font-size:.84rem;font-weight:600;display:flex;gap:6px;align-items:center}
 .casa-hero .steps b{background:#fff;color:var(--terra);width:20px;height:20px;border-radius:50%;display:grid;place-items:center;font-size:.75rem}
+.casa-hero.care{background:var(--agave);color:var(--agave-ink)}
+.casa-hero.care p{color:inherit;opacity:.88}
+.casa-hero.care .steps span{background:color-mix(in oklab,var(--agave-ink) 14%,transparent)}
+.casa-hero.care .steps b{background:var(--agave-ink);color:var(--agave)}
+.casa-hero.care .deco{border-color:color-mix(in oklab,var(--agave-ink) 10%,transparent)}
+.alert{display:flex;gap:10px;align-items:center;margin:12px 0 0;padding:12px 14px;border-radius:var(--r-sm);background:color-mix(in oklab,var(--closed) 12%,var(--surface));color:var(--closed);font-weight:600;font-size:.9rem}
+.alert a{font-weight:800}
+.care-list .stile .si{background:color-mix(in oklab,var(--agave) 15%,transparent);color:var(--agave)}
+.sheet-media.ph.care{background:color-mix(in oklab,var(--agave) 16%,var(--surface));color:var(--agave)}
+.callout.care{background:color-mix(in oklab,var(--agave) 12%,var(--surface))}
+.callout.care .lucide{color:var(--agave)}
+.tile.care{grid-column:span 2;background:var(--ink);color:var(--bg);border-color:transparent;flex-direction:row;align-items:center;gap:14px;min-height:auto}
+.tile.care .ico{background:var(--lime);color:var(--lime-ink);margin:0;width:52px;height:52px;flex:0 0 auto}
+.tile.care h3{font-size:1.4rem;font-weight:800}
+.tile.care .sub{color:color-mix(in oklab,var(--bg) 70%,transparent)}
+.tile.care .arrow2{margin-left:auto}
 .jump{position:sticky;top:64px;z-index:20;background:color-mix(in oklab,var(--bg) 85%,transparent);backdrop-filter:blur(12px);-webkit-backdrop-filter:blur(12px);padding-top:10px}
 .grupo{display:flex;align-items:center;gap:10px;margin:30px 0 12px;font-size:1.35rem;font-weight:800;scroll-margin-top:130px}
 .grupo .gi{width:38px;height:38px;border-radius:12px;background:var(--ink);color:var(--bg);display:grid;place-items:center}
@@ -287,6 +304,7 @@ footer a.cta-join{display:inline-flex;align-items:center;gap:8px;margin-top:14px
     <nav class="topnav" aria-label="Secciones">
       <a href="#" data-view="dir">Directorio</a>
       <a href="#casa" data-view="casa">Mejorando la casa</a>
+      <a href="#cuidados" data-view="cuidados">Salud y cuidados</a>
       <a href="#" class="js-alta">Súmate</a>
     </nav>
   </div>
@@ -298,7 +316,7 @@ footer a.cta-join{display:inline-flex;align-items:center;gap:8px;margin-top:14px
     <section class="hero">
       <div class="greet"><span class="dot"></span><span id="greet">Hola, vecino</span></div>
       <h1>Todo Bonaterra, <span class="mark-lime">a un mensaje.</span></h1>
-      <p class="lead">Negocios, comida y arreglos para tu casa, aquí mismo en el fraccionamiento. Elige, escríbenos y nosotros lo coordinamos.</p>
+      <p class="lead">Negocios, comida, arreglos para tu casa y cuidados para tu familia, aquí mismo en el fraccionamiento. Elige, escríbenos y nosotros lo coordinamos.</p>
       <div class="search" role="search">
         <i data-lucide="search"></i>
         <label class="sr" for="q">Buscar</label>
@@ -327,17 +345,18 @@ footer a.cta-join{display:inline-flex;align-items:center;gap:8px;margin-top:14px
 
   <!-- ============ MEJORANDO LA CASA ============ -->
   <div id="view-casa" hidden>
-    <section class="casa-hero">
+    <section class="casa-hero" id="cat-hero">
       <span class="deco"></span>
-      <h1>¿Qué le hace falta a tu casa?</h1>
-      <p>Plomería, electricidad, minisplit, jardín y mucho más. Si aún no tenemos a alguien fijo para lo que necesitas, te lo conseguimos.</p>
+      <h1 id="cat-h1"></h1>
+      <p id="cat-p"></p>
       <div class="steps"><span><b>1</b>Elige</span><span><b>2</b>Cuéntanos</span><span><b>3</b>Te confirmamos</span></div>
     </section>
+    <p class="alert" id="cat-alert" hidden><i data-lucide="siren"></i><span>¿Es una emergencia? Llama al <a href="tel:911">911</a>. Este servicio no es para urgencias médicas.</span></p>
     <div class="jump">
       <div class="search" role="search" style="margin-top:0">
         <i data-lucide="search"></i>
         <label class="sr" for="qc">Buscar servicio</label>
-        <input id="qc" type="search" autocomplete="off" placeholder="Ej: fuga, no enfría, alacranes…" enterkeyhint="search">
+        <input id="qc" type="search" autocomplete="off" enterkeyhint="search">
       </div>
       <div class="rail" id="grupos" aria-label="Grupos" style="padding-top:10px"></div>
     </div>
@@ -359,8 +378,8 @@ footer a.cta-join{display:inline-flex;align-items:center;gap:8px;margin-top:14px
   <a href="#" data-view="dir"><i data-lucide="compass"></i>Explorar</a>
   <a href="#casa" data-view="casa"><i data-lucide="hammer"></i>Casa</a>
   <a class="wa" id="fab" target="_blank" rel="noopener" aria-label="Escríbenos por WhatsApp"><i data-lucide="message-circle"></i></a>
+  <a href="#cuidados" data-view="cuidados"><i data-lucide="heart-handshake"></i>Cuidados</a>
   <a href="#directorio" data-view="none" id="nav-comida"><i data-lucide="utensils"></i>Comida</a>
-  <a href="#" class="js-alta"><i data-lucide="store"></i>Súmate</a>
 </nav>
 
 <dialog id="modal" aria-label="Detalle"></dialog>
@@ -383,7 +402,7 @@ const CATEGORIAS = [
   {id:"limpieza", label:"Tenis y accesorios", i:"footprints"},
   {id:"mercadito",label:"Mercadito",          i:"shopping-basket"},
 ];
-const QUICK = ["Plomero","Minisplit","Hamburguesas","Café","Maquillaje","Alacranes","Dentista","Tinaco"];
+const QUICK = ["Plomero","Inyección","Hamburguesas","Niñera","Minisplit","Café","Pasear perro","Alacranes"];
 
 const NEGOCIOS = [
   {
@@ -632,6 +651,65 @@ const CASA = [
   ]},
 ];
 
+const CUIDADOS = [
+  {grupo:"Salud en casa", gi:"heart-pulse", servicios:[
+    {id:"enfermeria", i:"heart-pulse", n:"Enfermería a domicilio", d:"Curaciones, signos vitales, sueros y cuidados postoperatorios.",
+      aviso:"Te enviamos personal con cédula profesional de enfermería.",
+      p:["Curación de herida","Toma de presión / glucosa","Retiro de puntos","Aplicación de suero","Cuidado postoperatorio","Sonda o cuidados especiales"], k:"enfermera enfermero curacion herida suero presion glucosa puntos sonda postoperatorio"},
+    {id:"inyecciones", i:"syringe", n:"Aplicación de inyecciones", d:"Intramuscular, intravenosa o subcutánea, en tu casa.",
+      aviso:"Es necesario tener la receta médica a la mano. Te la pediremos por WhatsApp.",
+      p:["Intramuscular","Intravenosa","Subcutánea (insulina, etc.)","Tratamiento de varios días"], k:"inyeccion inyecciones inyectar aplicar ampolleta vacuna insulina antibiotico"},
+    {id:"laboratorio", i:"test-tube", n:"Toma de muestras a domicilio", d:"Análisis de laboratorio sin salir de casa.",
+      p:["Química sanguínea","Biometría hemática","Examen general de orina","Prueba de embarazo","Otro estudio"], k:"laboratorio analisis muestra sangre estudios quimica biometria orina"},
+    {id:"medico", i:"stethoscope", n:"Consulta médica a domicilio", d:"Médico general en tu casa para ti o tu familia.",
+      p:["Malestar general / fiebre","Infección (garganta, estómago…)","Seguimiento de enfermedad crónica","Certificado médico"], k:"doctor medico consulta enfermo fiebre gripa certificado"},
+    {id:"fisioterapia", i:"activity", n:"Fisioterapia y rehabilitación", d:"Sesiones en casa para lesiones, dolor o recuperación.",
+      p:["Lesión deportiva","Dolor de espalda o cuello","Rehabilitación después de cirugía","Movilidad de adulto mayor"], k:"fisioterapia fisio rehabilitacion terapia dolor espalda lesion masaje"},
+    {id:"nutricion", i:"apple", n:"Nutrición", d:"Planes de alimentación para toda la familia.",
+      p:["Plan de alimentación","Bajar de peso","Control de diabetes o presión","Nutrición infantil"], k:"nutriologa nutriologo nutricion dieta peso alimentacion"},
+    {id:"psicologia", i:"brain", n:"Psicología", d:"Acompañamiento emocional presencial o en línea.",
+      p:["Ansiedad o estrés","Terapia de pareja","Niños y adolescentes","Prefiero en línea"], k:"psicologo psicologa terapia ansiedad depresion emocional"},
+  ]},
+  {grupo:"Adultos mayores", gi:"hand-heart", servicios:[
+    {id:"cuidador", i:"hand-heart", n:"Cuidador(a) de adulto mayor", d:"Compañía y cuidado por horas, turnos o de planta.",
+      aviso:"Verificamos identidad, referencias y experiencia de cada cuidador(a).",
+      p:["Por horas","Turno de día","Turno de noche","24 horas / de planta","Acompañamiento a citas médicas"], k:"cuidador cuidadora adulto mayor abuelito abuelita anciano acompañante"},
+    {id:"equipo-medico", i:"accessibility", n:"Renta de equipo médico", d:"Sillas de ruedas, camas hospitalarias, oxígeno y más.",
+      p:["Silla de ruedas","Cama hospitalaria","Concentrador de oxígeno","Andadera o bastón"], k:"renta silla ruedas cama hospital oxigeno andadera equipo medico"},
+  ]},
+  {grupo:"Niños", gi:"baby", servicios:[
+    {id:"ninera", i:"baby", n:"Niñera", d:"Cuidado de tus hijos por horas, noches o fijo.",
+      aviso:"Verificamos identidad y referencias. Puedes conocerla antes del servicio.",
+      p:["Por unas horas","Noche / salida","Fija entre semana","Varios niños","Bebé (menos de 1 año)"], k:"niñera nana babysitter cuidar niños bebe"},
+    {id:"tareas", i:"book-open", n:"Tareas y regularización", d:"Asesorías para primaria, secundaria, prepa e inglés.",
+      p:["Primaria","Secundaria","Preparatoria","Inglés","Matemáticas"], k:"tareas maestra maestro asesoria regularizacion clases ingles matematicas"},
+  ]},
+  {grupo:"Mascotas", gi:"paw-print", servicios:[
+    {id:"paseo-perros", i:"dog", n:"Paseo de perros", d:"Paseos diarios o algunos días a la semana.",
+      p:["Paseo diario","Algunos días a la semana","Solo una vez","Perro grande o de energía alta"], k:"paseo perro perros pasear paseador mascota"},
+    {id:"cuidado-mascotas", i:"cat", n:"Cuidado de mascotas", d:"Visitas en casa o pensión mientras viajas.",
+      p:["Visitas mientras viajo","Pensión / hospedaje","Comida y agua","Gatos"], k:"cuidar mascota gato perro pension viaje vacaciones"},
+    {id:"estetica-canina", i:"scissors", n:"Estética canina a domicilio", d:"Baño, corte, uñas y oídos sin salir de casa.",
+      p:["Baño","Corte","Uñas y oídos","Desparasitación externa"], k:"estetica canina baño perro corte grooming"},
+    {id:"veterinario", i:"paw-print", n:"Veterinario a domicilio", d:"Consultas, vacunas y desparasitación en casa.",
+      p:["Consulta","Vacunas","Desparasitación","Urgencia"], k:"veterinario vet vacuna perro gato desparasitar"},
+  ]},
+];
+
+/* Catálogos de servicios con el mismo flujo (elige → cuéntanos → te confirmamos) */
+const CATALOGOS = {
+  casa:{ titulo:"Mejorando la casa", icon:"hammer", grupos:CASA, cls:"",
+    h1:"¿Qué le hace falta a tu casa?",
+    p:"Plomería, electricidad, minisplit, jardín y mucho más. Si aún no tenemos a alguien fijo para lo que necesitas, te lo conseguimos.",
+    ph:"Ej: fuga, no enfría, alacranes…", extra:"Ej: la fuga está debajo del lavabo de la cocina" },
+  cuidados:{ titulo:"Salud y cuidados", icon:"heart-handshake", grupos:CUIDADOS, cls:"care",
+    h1:"Cuidamos a los tuyos, aquí en Bonaterra.",
+    p:"Enfermería, inyecciones, cuidado de adultos mayores, niñeras y mascotas. Personas verificadas y de confianza.",
+    ph:"Ej: inyección, niñera, pasear perro…", extra:"Ej: es para mi mamá de 78 años, necesita turno de noche",
+    alerta:true },
+};
+for (const [cid,c] of Object.entries(CATALOGOS)) for (const g of c.grupos) for (const sv of g.servicios) sv.cat = cid;
+const SERV_ALL = Object.values(CATALOGOS).flatMap(c => c.grupos.flatMap(g => g.servicios));
 const SERVICIOS_CASA = CASA.flatMap(g => g.servicios);
 
 /* ============ LÓGICA ============ */
@@ -675,11 +753,11 @@ function waLink(n, items){
   return `https://wa.me/${WA_PLATAFORMA}?text=${encodeURIComponent(txt)}`;
 }
 function waCasa(s, probs, urg, extra){
-  let txt = `Hola 👋 Vengo de Vecinos Bonaterra · Mejorando la casa.\nServicio: ${s.n}`;
+  let txt = `Hola 👋 Vengo de Vecinos Bonaterra · ${CATALOGOS[s.cat].titulo}.\nServicio: ${s.n}`;
   if (probs.length) txt += `\nNecesito: ${probs.join(", ")}`;
   if (urg) txt += `\nUrgencia: ${urg}`;
   if (extra) txt += `\nDetalles: ${extra}`;
-  txt += `\n(ref: ${REF}-casa-${s.id})`;
+  txt += `\n(ref: ${REF}-${s.cat}-${s.id})`;
   return `https://wa.me/${WA_PLATAFORMA}?text=${encodeURIComponent(txt)}`;
 }
 
@@ -712,11 +790,16 @@ function renderHome(){
       <span class="big">${abiertos}</span>
       <span class="lbl">Abiertos ahora</span>
       <span class="sub">Toca para verlos</span>
-    </button>`;
+    </button>
+    <a class="tile care reveal" href="#cuidados">
+      <span class="ico">${ico("heart-handshake")}</span>
+      <span><h3>Salud y cuidados</h3><span class="sub">Enfermería, inyecciones, adultos mayores, niñeras y mascotas</span></span>
+      <span class="arrow2">${ico("arrow-right")}</span>
+    </a>`;
   $("#t-merc").onclick = () => abrir(NEGOCIOS.find(n=>n.id==="mercadito"));
   $("#t-open").onclick = () => { soloAbiertos = true; $("#solo-abiertos").checked = true; filtro="todos"; renderChips(); renderGrid(); $("#directorio").scrollIntoView(); };
 
-  const items = [...SERVICIOS_CASA.map(s=>s.n), ...NEGOCIOS.map(n=>n.nombre.split(" · ")[0])];
+  const items = [...SERV_ALL.map(s=>s.n), ...NEGOCIOS.map(n=>n.nombre.split(" · ")[0])];
   const uniq = [...new Set(items)].sort(()=>Math.random()-.5).slice(0,18);
   $("#marquee").innerHTML = [...uniq, ...uniq].map(t=>`<span>${esc(t)}</span>`).join("");
 
@@ -762,9 +845,9 @@ function renderGrid(){
 
 function renderHint(){
   const q = norm($("#q").value.trim()), h = $("#casa-hint");
-  const ss = q.length>2 ? SERVICIOS_CASA.filter(s=>matchServ(s,q)).slice(0,3) : [];
+  const ss = q.length>2 ? SERV_ALL.filter(s=>matchServ(s,q)).slice(0,3) : [];
   h.hidden = !ss.length;
-  h.innerHTML = ss.length ? `${ico("hammer")}<span>En <b>Mejorando la casa</b>:</span> ${ss.map(s=>`<a href="#casa/${s.id}">${esc(s.n)} →</a>`).join(" ")}` : "";
+  h.innerHTML = ss.length ? `${ico("sparkles")}<span>También te ayudamos con:</span> ${ss.map(s=>`<a href="#${s.cat}/${s.id}">${esc(s.n)} →</a>`).join(" ")}` : "";
   icons();
 }
 
@@ -819,10 +902,16 @@ const matchServ = (s, q) => {
   const hay = norm([s.n, s.d, s.k, s.p.join(" ")].join(" "));
   return q.split(/\s+/).every(w => hay.includes(w));
 };
-function renderCasa(){
-  const q = norm($("#qc").value.trim());
-  $("#grupos").innerHTML = CASA.map((g,i)=>`<a class="chip" href="#casa" data-g="${i}">${ico(g.gi)}${g.grupo}</a>`).join("");
-  const html = CASA.map((g,gi) => {
+let catActual = "casa";
+function renderCat(){
+  const C = CATALOGOS[catActual], q = norm($("#qc").value.trim());
+  $("#cat-hero").className = "casa-hero " + C.cls;
+  $("#cat-h1").textContent = C.h1; $("#cat-p").textContent = C.p;
+  $("#cat-alert").hidden = !C.alerta;
+  $("#qc").placeholder = C.ph;
+  $("#casa-list").className = C.cls ? C.cls+"-list" : "";
+  $("#grupos").innerHTML = C.grupos.map((g,i)=>`<a class="chip" href="#${catActual}" data-g="${i}">${ico(g.gi)}${g.grupo}</a>`).join("");
+  const html = C.grupos.map((g,gi) => {
     const ss = q ? g.servicios.filter(s => matchServ(s,q)) : g.servicios;
     if (!ss.length) return "";
     return `<h2 class="grupo" id="g-${gi}"><span class="gi">${ico(g.gi)}</span>${g.grupo}</h2><div class="sgrid">${ss.map(s => {
@@ -834,21 +923,23 @@ function renderCasa(){
   $("#casa-list").innerHTML = html || `<div class="empty" style="margin-top:20px"><b>No lo vemos en la lista</b>
     Pero seguro te lo conseguimos.<br><br>
     <a class="btn-wa" style="max-width:300px;margin:0 auto" target="_blank" rel="noopener"
-    href="${waCasa({n:$("#qc").value, id:"otro"}, [], "", "")}">${ico("message-circle")}Pídelo por WhatsApp</a></div>`;
+    href="${waCasa({n:$("#qc").value, id:"otro", cat:catActual}, [], "", "")}">${ico("message-circle")}Pídelo por WhatsApp</a></div>`;
   icons();
 }
 
 function abrirServicio(s){
   const m = $("#modal");
   const provs = (s.prov||[]).map(id => NEGOCIOS.find(n=>n.id===id)).filter(Boolean);
+  const C = CATALOGOS[s.cat], care = s.cat==="cuidados";
   m.innerHTML = `
     <div class="grab" aria-hidden="true"></div>
     <div class="sheet">
-      <div style="position:relative"><div class="sheet-media ph">${ico(s.i)}</div><button class="x" aria-label="Cerrar">${ico("x")}</button></div>
+      <div style="position:relative"><div class="sheet-media ph ${C.cls}">${ico(s.i)}</div><button class="x" aria-label="Cerrar">${ico("x")}</button></div>
       <div class="sbody">
-        <span class="kicker">${ico("hammer")}Mejorando la casa</span>
+        <span class="kicker">${ico(C.icon)}${C.titulo}</span>
         <h2>${esc(s.n)}</h2>
         <p style="color:var(--muted);margin:8px 0 0">${esc(s.d)}</p>
+        ${s.aviso?`<div class="callout ${C.cls}" style="margin-top:14px">${ico(care?"shield-check":"info")}<span>${esc(s.aviso)}</span></div>`:""}
         <div class="block"><h3><span class="n">1</span>¿Qué necesitas?</h3>
           ${s.p.map(x=>`<label class="opt"><input type="checkbox" name="p" value="${esc(x)}"><span class="t">${esc(x)}</span></label>`).join("")}
         </div>
@@ -861,11 +952,11 @@ function abrirServicio(s){
         </div>
         <div class="block"><h3><span class="n">3</span>Cuéntanos más <span style="font-weight:500;color:var(--muted);font-size:.85rem;font-family:'Instrument Sans'">(opcional)</span></h3>
           <label class="sr" for="extra">Detalles</label>
-          <textarea id="extra" placeholder="Ej: la fuga está debajo del lavabo de la cocina"></textarea>
+          <textarea id="extra" placeholder="${esc(C.extra)}"></textarea>
         </div>
         <div class="block"><h3>Quién te atiende</h3>
           ${provs.length ? provs.map(n=>`<button class="prov" data-nid="${n.id}"><img src="${n.imagen}" alt=""><span><b>${esc(n.nombre)}</b><small>Proveedor en Bonaterra</small></span>${ico("chevron-right")}</button>`).join("")
-          : `<div class="callout">${ico("sparkles")}<span>Aún no tenemos un proveedor fijo para este servicio, pero <b>te conseguimos a alguien de confianza</b> y te confirmamos por WhatsApp.</span></div>`}
+          : `<div class="callout ${C.cls}">${ico("sparkles")}<span>Aún no tenemos un proveedor fijo para este servicio, pero <b>te conseguimos a alguien de confianza${care?" y verificado":""}</b> y te confirmamos por WhatsApp.</span></div>`}
         </div>
       </div>
     </div>
@@ -898,29 +989,31 @@ function wireSheet(m){
 /* ---------- Navegación ---------- */
 function route(){
   const [view, sid] = location.hash.replace("#","").split("/");
-  const casa = view==="casa";
+  const cat = CATALOGOS[view] ? view : null;
   const go = () => {
-    $("#view-dir").hidden = casa; $("#view-casa").hidden = !casa;
+    $("#view-dir").hidden = !!cat; $("#view-casa").hidden = !cat;
     document.querySelectorAll("[data-view]").forEach(t => {
       if (t.dataset.view==="none") return;
-      t.setAttribute("aria-current", (t.dataset.view==="casa")===casa ? "page" : "false");
+      t.setAttribute("aria-current", t.dataset.view===(cat||"dir") ? "page" : "false");
     });
-    if (casa) renderCasa(); else { renderGrid(); renderHint(); }
+    if (cat){ catActual = cat; renderCat(); } else { renderGrid(); renderHint(); }
   };
   if (view==="directorio") return;
   if (document.startViewTransition && !matchMedia("(prefers-reduced-motion: reduce)").matches) document.startViewTransition(go); else go();
-  if (sid) { const s = SERVICIOS_CASA.find(x=>x.id===sid); if (s) setTimeout(()=>abrirServicio(s), 60); }
+  if (sid) { const s = SERV_ALL.find(x=>x.id===sid); if (s) setTimeout(()=>abrirServicio(s), 60); }
 }
 let lastView = null;
 window.addEventListener("hashchange", () => {
-  const v = location.hash.startsWith("#casa") ? "casa" : location.hash==="#directorio" ? "anchor" : "dir";
+  const h = location.hash.replace("#","").split("/")[0];
+  const v = CATALOGOS[h] ? h : h==="directorio" ? "anchor" : "dir";
+  if (v!=="anchor" && v!==lastView) $("#qc").value = "";
   if (v==="anchor") return;
   if (v!==lastView){ window.scrollTo({top:0}); lastView=v; }
   route();
 });
 
 /* rotating placeholder */
-const PH = ["¿Qué necesitas hoy?","Prueba: “fuga de agua”","Prueba: “hamburguesa”","Prueba: “uñas”","Prueba: “minisplit”","Prueba: “tamales”"];
+const PH = ["¿Qué necesitas hoy?","Prueba: “fuga de agua”","Prueba: “hamburguesa”","Prueba: “inyección”","Prueba: “niñera”","Prueba: “minisplit”","Prueba: “tamales”"];
 let phi = 0;
 function rotatePH(){ const q=$("#q"); if (document.activeElement!==q && !q.value){ q.placeholder = PH[phi++ % PH.length]; } }
 
@@ -932,7 +1025,7 @@ $("#chips").addEventListener("click", e => {
 $("#solo-abiertos").addEventListener("change", e => { soloAbiertos = e.target.checked; renderGrid(); });
 $("#q").addEventListener("input", () => { renderGrid(); renderHint(); });
 $("#q").addEventListener("keydown", e => { if (e.key==="Enter"){ $("#directorio").scrollIntoView(); e.target.blur(); } });
-$("#qc").addEventListener("input", renderCasa);
+$("#qc").addEventListener("input", renderCat);
 $("#quick").addEventListener("click", e => {
   const b = e.target.closest("button"); if (!b) return;
   $("#q").value = b.textContent; renderGrid(); renderHint();
@@ -943,14 +1036,14 @@ $("#grid").addEventListener("click", e => {
   const c = e.target.closest(".card"); if (c) abrir(NEGOCIOS.find(n=>n.id===c.dataset.id));
 });
 $("#casa-list").addEventListener("click", e => {
-  const b = e.target.closest(".stile"); if (b) abrirServicio(SERVICIOS_CASA.find(s=>s.id===b.dataset.sid));
+  const b = e.target.closest(".stile"); if (b) abrirServicio(SERV_ALL.find(s=>s.id===b.dataset.sid && s.cat===catActual));
 });
 $("#grupos").addEventListener("click", e => {
   const a = e.target.closest("[data-g]"); if (!a) return; e.preventDefault();
-  $("#qc").value=""; renderCasa(); document.getElementById("g-"+a.dataset.g).scrollIntoView({behavior:"smooth"});
+  $("#qc").value=""; renderCat(); document.getElementById("g-"+a.dataset.g).scrollIntoView({behavior:"smooth"});
 });
 $("#nav-comida").addEventListener("click", e => {
-  if (location.hash.startsWith("#casa")) { e.preventDefault(); location.hash=""; }
+  if (CATALOGOS[location.hash.slice(1).split("/")[0]]) { e.preventDefault(); location.hash=""; }
   filtro="comida"; renderChips(); renderGrid();
   setTimeout(()=>$("#directorio").scrollIntoView({behavior:"smooth"}), 80);
 });
@@ -960,7 +1053,7 @@ $("#fab").href = `https://wa.me/${WA_PLATAFORMA}?text=${encodeURIComponent("Hola
 addEventListener("scroll", () => $("#top").classList.toggle("scrolled", scrollY>8), {passive:true});
 
 renderHome(); renderChips(); rotatePH(); setInterval(rotatePH, 2600);
-lastView = location.hash.startsWith("#casa") ? "casa" : "dir";
+lastView = CATALOGOS[location.hash.slice(1).split("/")[0]] ? location.hash.slice(1).split("/")[0] : "dir";
 route();
 addEventListener("load", icons);
 </script>
