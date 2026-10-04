@@ -1,0 +1,426 @@
+<!doctype html>
+<html lang="es">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Vecinos Bonaterra</title>
+<link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;600;700;800&display=swap" rel="stylesheet">
+<style>
+:root{
+  --bg:#f6f7f4; --card:#ffffff; --ink:#1b2a22; --muted:#5f6f66; --line:#e3e7e2;
+  --brand:#1f6f4a; --brand-2:#2f9a68; --accent:#f2b134; --wa:#25d366;
+  --open:#1f8a4c; --closed:#b54141; --shadow:0 2px 10px rgba(20,40,30,.07);
+}
+@media (prefers-color-scheme: dark){
+  :root:not([data-theme="light"]){
+    --bg:#111613; --card:#1a211d; --ink:#e8eee9; --muted:#9db0a5; --line:#2a342e;
+    --brand:#3fb47c; --brand-2:#5fd09a; --accent:#f2b134; --shadow:0 2px 10px rgba(0,0,0,.35);
+    --open:#4fd08a; --closed:#ff7b7b;
+  }
+}
+:root[data-theme="dark"]{
+  --bg:#111613; --card:#1a211d; --ink:#e8eee9; --muted:#9db0a5; --line:#2a342e;
+  --brand:#3fb47c; --brand-2:#5fd09a; --accent:#f2b134; --shadow:0 2px 10px rgba(0,0,0,.35);
+  --open:#4fd08a; --closed:#ff7b7b;
+}
+*{box-sizing:border-box}
+body{margin:0;background:var(--bg);color:var(--ink);font-family:"Plus Jakarta Sans",system-ui,sans-serif;line-height:1.45}
+.wrap{max-width:1080px;margin:0 auto;padding:0 16px}
+header{background:linear-gradient(135deg,var(--brand),var(--brand-2));color:#fff;padding:28px 0 64px}
+header h1{margin:0;font-size:clamp(1.6rem,4.5vw,2.4rem);font-weight:800;letter-spacing:-.02em}
+header p{margin:6px 0 0;opacity:.92;max-width:560px}
+.search{margin-top:-30px;position:relative;z-index:2}
+.search input{width:100%;padding:16px 18px 16px 48px;font:inherit;font-size:1.05rem;border-radius:14px;border:1px solid var(--line);background:var(--card);color:var(--ink);box-shadow:var(--shadow);outline:none}
+.search input:focus{border-color:var(--brand)}
+.search svg{position:absolute;left:16px;top:50%;transform:translateY(-50%);color:var(--muted)}
+.chips{display:flex;gap:8px;overflow-x:auto;padding:16px 0 4px;scrollbar-width:none}
+.chips::-webkit-scrollbar{display:none}
+.chip{flex:0 0 auto;border:1px solid var(--line);background:var(--card);color:var(--ink);padding:8px 14px;border-radius:999px;font:inherit;font-size:.92rem;cursor:pointer;white-space:nowrap}
+.chip[aria-pressed="true"]{background:var(--brand);border-color:var(--brand);color:#fff}
+.banner{margin:16px 0 4px;background:var(--card);border:1px solid var(--line);border-left:5px solid var(--accent);border-radius:12px;padding:14px 16px;display:flex;gap:12px;align-items:center;box-shadow:var(--shadow);cursor:pointer}
+.banner b{display:block}
+.banner small{color:var(--muted)}
+.banner .emoji{font-size:1.8rem}
+.count{color:var(--muted);font-size:.9rem;margin:14px 0 8px}
+.grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(250px,1fr));gap:14px;padding-bottom:40px}
+.card{background:var(--card);border:1px solid var(--line);border-radius:16px;overflow:hidden;box-shadow:var(--shadow);display:flex;flex-direction:column;cursor:pointer;transition:transform .12s}
+.card:hover{transform:translateY(-2px)}
+.thumb{aspect-ratio:16/10;background:#ddd center/cover no-repeat;position:relative}
+.thumb.emoji{display:grid;place-items:center;font-size:3rem;background:linear-gradient(135deg,#fde9b8,#f6c76b)}
+.status{position:absolute;top:10px;left:10px;font-size:.75rem;font-weight:700;padding:4px 9px;border-radius:999px;background:rgba(255,255,255,.95);color:#222}
+.status.on{color:#1f8a4c}.status.off{color:#b54141}
+.body{padding:12px 14px 14px;display:flex;flex-direction:column;gap:6px;flex:1}
+.cat{font-size:.75rem;font-weight:700;color:var(--brand);text-transform:uppercase;letter-spacing:.04em}
+.name{font-weight:800;font-size:1.08rem;margin:0}
+.desc{color:var(--muted);font-size:.9rem;margin:0}
+.tags{display:flex;flex-wrap:wrap;gap:5px;margin-top:auto;padding-top:6px}
+.tag{font-size:.75rem;background:var(--bg);border:1px solid var(--line);padding:3px 8px;border-radius:999px;color:var(--muted)}
+.pend{font-size:.72rem;color:var(--closed);font-weight:600}
+.empty{text-align:center;color:var(--muted);padding:40px 0}
+/* modal */
+dialog{border:none;padding:0;border-radius:18px;width:min(560px,calc(100% - 24px));max-height:88vh;background:var(--card);color:var(--ink);box-shadow:0 20px 60px rgba(0,0,0,.35)}
+dialog::backdrop{background:rgba(10,20,15,.55)}
+.m-head{position:relative}
+.m-head .thumb{aspect-ratio:16/8}
+.m-close{position:absolute;top:10px;right:10px;width:36px;height:36px;border-radius:50%;border:none;background:rgba(255,255,255,.95);font-size:1.2rem;cursor:pointer;color:#222}
+.m-body{padding:16px 18px 20px;overflow:auto;max-height:calc(88vh - 220px)}
+.m-body h2{margin:2px 0 4px;font-size:1.4rem}
+.info{display:grid;gap:6px;margin:12px 0;font-size:.92rem}
+.info div{display:flex;gap:8px}
+.sec{margin-top:16px}
+.sec h3{font-size:.95rem;margin:0 0 6px;color:var(--brand)}
+.item{display:flex;justify-content:space-between;align-items:center;gap:10px;padding:9px 10px;border:1px solid var(--line);border-radius:10px;margin-bottom:6px;cursor:pointer;font-size:.93rem}
+.item input{accent-color:var(--brand)}
+.item label{display:flex;gap:8px;align-items:center;flex:1;cursor:pointer}
+.item .price{font-weight:700;white-space:nowrap}
+.note{font-size:.82rem;color:var(--muted)}
+.cta{position:sticky;bottom:0;background:var(--card);border-top:1px solid var(--line);padding:12px 18px}
+.btn-wa{display:flex;align-items:center;justify-content:center;gap:10px;width:100%;padding:14px;border:none;border-radius:12px;background:var(--wa);color:#063;font:inherit;font-weight:800;font-size:1rem;cursor:pointer;text-decoration:none}
+footer{border-top:1px solid var(--line);padding:22px 0 40px;color:var(--muted);font-size:.85rem}
+footer a{color:var(--brand)}
+.fab{position:fixed;right:16px;bottom:16px;width:58px;height:58px;border-radius:50%;background:var(--wa);display:grid;place-items:center;box-shadow:0 6px 18px rgba(0,0,0,.25);z-index:5}
+</style>
+</head>
+<body>
+
+<header>
+  <div class="wrap">
+    <h1>Vecinos Bonaterra</h1>
+    <p>Servicios, comida y negocios de tu fraccionamiento. Encuentra lo que necesitas y pídelo por WhatsApp en un minuto.</p>
+  </div>
+</header>
+
+<main class="wrap">
+  <div class="search">
+    <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="11" cy="11" r="7"/><path d="m20 20-3.5-3.5"/></svg>
+    <input id="q" type="search" placeholder="¿Qué necesitas? Ej: lavado de auto, uñas, café, tamales…" autocomplete="off">
+  </div>
+
+  <div class="chips" id="chips" role="toolbar" aria-label="Categorías"></div>
+
+  <div class="banner" id="mercadito-banner"></div>
+
+  <div class="count" id="count"></div>
+  <section class="grid" id="grid"></section>
+</main>
+
+<footer>
+  <div class="wrap">
+    ¿Tienes un negocio o das un servicio en Bonaterra? <a href="#" id="alta">Súmate al directorio</a>.<br>
+    Al escribirnos aceptas nuestro aviso de privacidad (pendiente).
+  </div>
+</footer>
+
+<a class="fab" id="fab" aria-label="Escríbenos por WhatsApp" target="_blank" rel="noopener">
+  <svg width="30" height="30" viewBox="0 0 24 24" fill="#fff"><path d="M12 2a10 10 0 0 0-8.6 15.1L2 22l5-1.3A10 10 0 1 0 12 2Zm5.3 14.2c-.2.6-1.3 1.2-1.8 1.2-.5.1-1 .2-3.3-.7-2.8-1.1-4.6-4-4.7-4.2-.1-.2-1.1-1.5-1.1-2.9s.7-2 1-2.3c.2-.3.5-.3.7-.3h.5c.2 0 .4 0 .6.5l.8 2c.1.2.1.4 0 .5l-.3.5-.4.4c-.1.1-.3.3-.1.6.2.3.8 1.3 1.7 2.1 1.2 1 2.1 1.4 2.4 1.5.3.1.5.1.6-.1l.9-1c.2-.3.4-.2.6-.1l1.9.9c.3.1.5.2.5.3.1.2.1.8-.1 1.4Z"/></svg>
+</a>
+
+<dialog id="modal"></dialog>
+
+<script>
+/* ============ CONFIGURACIÓN ============ */
+// Número de WhatsApp de la PLATAFORMA (lo atiende la IA en GHL). Formato: 52 + 10 dígitos.
+const WA_PLATAFORMA = "520000000000"; // TODO: reemplazar
+const REF = "web";
+
+/* Horario: índice 0=domingo … 6=sábado. Cada día: ["HH:MM","HH:MM"] o null (cerrado). */
+const CATEGORIAS = [
+  {id:"todos",    label:"Todos"},
+  {id:"hogar",    label:"🏠 Hogar"},
+  {id:"auto",     label:"🚗 Auto"},
+  {id:"belleza",  label:"💅 Belleza"},
+  {id:"comida",   label:"🍽️ Comida"},
+  {id:"cafe",     label:"☕ Café"},
+  {id:"salud",    label:"🦷 Salud"},
+  {id:"tienda",   label:"🎁 Papelería y regalos"},
+  {id:"limpieza", label:"👟 Limpieza de tenis"},
+  {id:"mercadito",label:"🧺 Mercadito"},
+];
+
+const NEGOCIOS = [
+  {
+    id:"autoservicio-martinez",
+    nombre:"Autoservicio Martínez",
+    responsable:"José Juan Martínez Velarde",
+    categorias:["auto","hogar"],
+    descripcion:"Lavado y detallado de autos, y servicios de mantenimiento para tu casa. Atiende a domicilio en Bonaterra.",
+    imagen:"img/martinez.webp",
+    tipo:"servicio",
+    secciones:[
+      {titulo:"Para tu auto", items:[
+        {n:"Lavado de carros"},{n:"Lavado de interiores"},{n:"Pulido y encerado"}]},
+      {titulo:"Para tu hogar", items:[
+        {n:"Lavado de salas y sillas"},{n:"Lavado de tinacos y aljibes"},{n:"Pintura de casa"},{n:"Impermeabilización"}]},
+    ],
+    nota:"Precio según cotización.",
+    keywords:"carro coche lavado detallado tinaco aljibe pintor pintura impermeabilizar sala sillon limpieza",
+  },
+  {
+    id:"beauty-nini",
+    nombre:"Beauty Nini Studio",
+    categorias:["belleza"],
+    descripcion:"Maquillaje profesional, peinados y uñas. Makeup artist & nails.",
+    imagen:"img/beautynini.png", logo:"#5e3d38",
+    instagram:"beautyninistudio",
+    tipo:"cita",
+    secciones:[
+      {titulo:"Maquillaje y peinado", items:[
+        {n:"Maquillaje social / glam", p:600},
+        {n:"Ondas / alaciado (cabello corto a medio)", p:400},
+        {n:"Ondas / alaciado (cabello largo o abundante)", p:500},
+        {n:"Recogido / medio recogido", p:550},
+        {n:"Maquillaje + ondas / alaciado", p:950}]},
+      {titulo:"Uñas", items:[{n:"Uñas (precios por confirmar)"}]},
+    ],
+    keywords:"maquillaje makeup peinado uñas nails alaciado ondas boda xv graduacion evento",
+  },
+  {
+    id:"matuclub",
+    nombre:"MatuClub Coffee Bar",
+    categorias:["cafe"],
+    descripcion:"“Con fe y café todo se puede.” Café de especialidad, frappés, matcha y bebidas sin café.",
+    imagen:"img/matuclub.jpg", logo:"#2b2e33",
+    tipo:"pedido",
+    secciones:[
+      {titulo:"Bebidas calientes", items:[
+        {n:"Americano",p:40},{n:"Latte",p:70},{n:"Latte de sabor",p:75},{n:"Capuchino",p:70},{n:"Chocolate",p:50}]},
+      {titulo:"Bebidas frías", items:[
+        {n:"Latte",p:70},{n:"Latte de sabor",p:75},{n:"White mokaccino",p:75},{n:"Mokaccino",p:75},
+        {n:"Dirty matcha",p:110},{n:"Latte churro",p:105},{n:"Latte lotus",p:105}]},
+      {titulo:"Frappés", items:[
+        {n:"Frappé taro",p:80},{n:"Frappé galleta",p:80},{n:"Frappé vainilla",p:80},{n:"Frappé matcha",p:80},
+        {n:"Frappé capuchino",p:80},{n:"Frappé caramelo",p:80},{n:"Frappé mazapán",p:80}]},
+      {titulo:"Espresso tonic", items:[
+        {n:"Clásico",p:70},{n:"Mango",p:75},{n:"Maracuyá",p:75},{n:"Manzana verde",p:75}]},
+      {titulo:"Sin café", items:[
+        {n:"Matcha",p:85},{n:"Matcha sabor",p:90},{n:"Matcha frutos rojos",p:95},{n:"Matcha burberry",p:95},
+        {n:"Chai",p:75},{n:"Chai de sabor",p:85},{n:"Taro",p:75}]},
+      {titulo:"Extras", items:[
+        {n:"Cold foam",p:15},{n:"Cold foam de sabor",p:20},{n:"Shot espresso",p:25},{n:"Leche de avena",p:15}]},
+    ],
+    nota:"Sabores para lattes: vainilla, caramelo, crema irlandesa, tiramisú, avellana, coco.",
+    keywords:"cafe coffee latte frappe matcha chai americano capuchino bebida",
+  },
+  {
+    id:"bonne-papier",
+    nombre:"Bonne Papier",
+    categorias:["tienda"],
+    descripcion:"Papelería y regalos.",
+    imagen:"img/bonnepapier.png", logo:"#6e2f2f",
+    tipo:"pedido",
+    horario:[null,["09:30","20:00"],["09:30","20:00"],["09:30","20:00"],["09:30","20:00"],["09:30","20:00"],["10:00","17:00"]],
+    secciones:[{titulo:"Productos", items:[{n:"Papelería y útiles escolares"},{n:"Regalos"},{n:"Otro (lo escribo en el chat)"}]}],
+    keywords:"papeleria utiles escolares regalo cuaderno lapiz impresion",
+  },
+  {
+    id:"corazon-contento",
+    nombre:"Corazón Contento",
+    categorias:["comida"],
+    descripcion:"Comida casera con envío a domicilio. “Cocinamos con amor, para ti y tu familia.”",
+    imagen:"img/corazoncontento.png",
+    tipo:"pedido",
+    ubicacion:"Plaza Comercial Bonacenter, local 3",
+    pagos:["Efectivo","Tarjeta","Transferencia"],
+    entrega:"Envío a domicilio",
+    horario:[null,["08:00","17:00"],["08:00","17:00"],["08:00","17:00"],["08:00","17:00"],["08:00","17:00"],null],
+    secciones:[{titulo:"Pedido", items:[{n:"Comida del día (pregunta el menú)"}]}],
+    keywords:"comida casera corrida menu del dia caldo sopa almuerzo comida a domicilio",
+  },
+  {
+    id:"dental-medina",
+    nombre:"Medina Clínica Dental",
+    categorias:["salud"],
+    descripcion:"Odontología general y especializada para niños y adultos.",
+    imagen:"img/dental.png",
+    tipo:"cita",
+    secciones:[{titulo:"Tratamientos", items:[
+      {n:"Ortodoncia (brackets)"},{n:"Blanqueamiento"},{n:"Carillas"},{n:"Zirconias"},
+      {n:"Rehabilitación"},{n:"Ortopedia"},{n:"Cirugía"},{n:"Revisión / limpieza"}]}],
+    keywords:"dentista dental muelas brackets ortodoncia blanqueamiento limpieza carillas zirconia niños",
+  },
+  {
+    id:"happy-burger",
+    nombre:"Happy Burger",
+    categorias:["comida"],
+    descripcion:"Hamburguesas smash con carne premium y queso amarillo. “Don't worry, be happy.”",
+    imagen:"img/happyburger.webp", logo:"#f5b21b",
+    tipo:"pedido",
+    pendiente:"Falta horario y ubicación",
+    secciones:[
+      {titulo:"Hamburguesas", items:[
+        {n:"Smash Burger", d:"Carne + queso amarillo · Combo con papas y refresco $129", p:69},
+        {n:"Happy Burger", d:"Carne + queso amarillo + cebolla caramelizada · Combo $129", p:69},
+        {n:"American Burger", d:"Carne + queso amarillo + cebolla caramelizada + lechuga, jitomate, cebolla y pepinillos · Combo $139", p:79},
+        {n:"Chicken Burger", d:"Pollo + queso amarillo + lechuga, jitomate y cebolla · Combo $139", p:79},
+        {n:"Camarón Burger", d:"Camarón + queso amarillo + lechuga, jitomate y cebolla · Combo $185", p:125},
+        {n:"Monster Burger", d:"Doble carne + queso amarillo + tocino + lechuga, jitomate, cebolla y pepinillos · Combo $189", p:130}]},
+      {titulo:"Para compartir", items:[
+        {n:"Mundial Box", d:"4 smash burgers + 300 g de papas fritas + 260 g de aros de cebolla", p:350},
+        {n:"Boneless Mundialistas", d:"1 kg de boneless + 2 porciones de papas (300 g)", p:350}]},
+      {titulo:"Extras", items:[
+        {n:"Combo (papas + refresco)", d:"Precio según la hamburguesa"},
+        {n:"Cambiar refresco por malteada", p:40}]},
+    ],
+    nota:"Indica en el chat si tu hamburguesa va sola o en combo.",
+    keywords:"hamburguesa burger smash boneless papas aros cebolla malteada combo camaron pollo comida rapida",
+  },
+  {
+    id:"brillaxion",
+    nombre:"Brillaxion",
+    categorias:["limpieza"],
+    descripcion:"Limpieza profesional de tenis y accesorios.",
+    imagen:"img/brillaxion.jpg", logo:"#000000",
+    tipo:"servicio",
+    secciones:[{titulo:"Servicios", items:[{n:"Limpieza de tenis"},{n:"Limpieza de accesorios (gorras, bolsas…)"}]}],
+    keywords:"tenis sneakers zapatos limpieza gorra bolsa accesorios",
+  },
+  {
+    id:"mercadito",
+    nombre:"Mercadito del Parque Lineal",
+    categorias:["mercadito","comida"],
+    descripcion:"Todos los miércoles en el Parque Lineal. Productos frescos y artesanales de vecinos.",
+    emoji:"🧺",
+    tipo:"pedido",
+    ubicacion:"Parque Lineal, Bonaterra",
+    soloDia:3, // miércoles
+    pendiente:"Falta horario del mercadito",
+    secciones:[{titulo:"Puestos", items:[
+      {n:"Pan de masa madre"},{n:"Pasteles Dulce Deleite"},{n:"Frutas y verduras"},{n:"Quesos y lácteos"},{n:"Tamales"}]}],
+    nota:"Puedes apartar tu pedido por WhatsApp y recogerlo el miércoles.",
+    keywords:"mercado tianguis pan masa madre pastel postre fruta verdura queso lacteos tamales miercoles",
+  },
+];
+
+/* ============ LÓGICA ============ */
+const $ = s => document.querySelector(s);
+const DIAS = ["domingo","lunes","martes","miércoles","jueves","viernes","sábado"];
+let filtro = "todos";
+
+const norm = s => (s||"").toString().toLowerCase().normalize("NFD").replace(/[̀-ͯ]/g,"");
+const toMin = t => { const [h,m]=t.split(":").map(Number); return h*60+m; };
+const fmt12 = t => { let [h,m]=t.split(":").map(Number); const ap=h>=12?"p.m.":"a.m."; h=h%12||12; return `${h}${m?":"+String(m).padStart(2,"0"):""} ${ap}`; };
+const money = n => "$" + n.toLocaleString("es-MX");
+
+function estado(n){
+  const now = new Date(), d = now.getDay(), mins = now.getHours()*60+now.getMinutes();
+  if (n.soloDia !== undefined) return d===n.soloDia ? {on:true, txt:"Hoy hay mercadito"} : {on:false, txt:"Solo miércoles"};
+  if (!n.horario) return null;
+  const h = n.horario[d];
+  if (h && mins>=toMin(h[0]) && mins<toMin(h[1])) return {on:true, txt:`Abierto · cierra ${fmt12(h[1])}`};
+  return {on:false, txt:"Cerrado ahora"};
+}
+
+function waLink(n, items){
+  let txt = `Hola 👋 Vengo de la página de Vecinos Bonaterra.\nNegocio: ${n.nombre}`;
+  if (items.length) txt += `\nMe interesa: ${items.join(", ")}`;
+  else txt += `\nQuiero información.`;
+  txt += `\n(ref: ${REF}-${n.id})`;
+  return `https://wa.me/${WA_PLATAFORMA}?text=${encodeURIComponent(txt)}`;
+}
+
+function renderChips(){
+  $("#chips").innerHTML = CATEGORIAS.map(c =>
+    `<button class="chip" data-id="${c.id}" aria-pressed="${c.id===filtro}">${c.label}</button>`).join("");
+}
+
+function renderBanner(){
+  const hoy = new Date().getDay(), b = $("#mercadito-banner");
+  const esHoy = hoy===3;
+  b.innerHTML = `<span class="emoji">🧺</span><div><b>${esHoy?"¡Hoy es miércoles de mercadito!":"Mercadito cada miércoles"}</b>
+    <small>Parque Lineal · pan de masa madre, pasteles, frutas y verduras, quesos, tamales</small></div>`;
+  b.onclick = () => abrir(NEGOCIOS.find(n=>n.id==="mercadito"));
+}
+
+function thumb(n, cls="thumb"){
+  if (n.imagen) return `<div class="${cls}" style="background-image:url('${n.imagen}')${n.logo?`;background-size:contain;background-color:${n.logo}`:""}">`;
+  return `<div class="${cls} emoji">${n.emoji||"🏪"}`;
+}
+
+function renderGrid(){
+  const q = norm($("#q").value.trim());
+  const lista = NEGOCIOS.filter(n => {
+    if (filtro!=="todos" && !n.categorias.includes(filtro)) return false;
+    if (!q) return true;
+    const hay = norm([n.nombre,n.descripcion,n.keywords,(n.secciones||[]).flatMap(s=>s.items.map(i=>i.n)).join(" ")].join(" "));
+    return q.split(/\s+/).every(w => hay.includes(w));
+  });
+  $("#count").textContent = `${lista.length} ${lista.length===1?"resultado":"resultados"}`;
+  $("#grid").innerHTML = lista.length ? lista.map(n => {
+    const e = estado(n);
+    const cat = CATEGORIAS.find(c=>c.id===n.categorias[0]);
+    const tags = (n.secciones||[]).flatMap(s=>s.items).slice(0,3).map(i=>`<span class="tag">${i.n}</span>`).join("");
+    return `<article class="card" data-id="${n.id}" tabindex="0">
+      ${thumb(n)}${e?`<span class="status ${e.on?"on":"off"}">● ${e.txt}</span>`:""}</div>
+      <div class="body">
+        <span class="cat">${cat?cat.label.replace(/^\S+\s/,""):""}</span>
+        <h3 class="name">${n.nombre}</h3>
+        <p class="desc">${n.descripcion}</p>
+        ${n.pendiente?`<span class="pend">⚠ ${n.pendiente}</span>`:""}
+        <div class="tags">${tags}</div>
+      </div></article>`;
+  }).join("") : `<div class="empty">No encontramos “${$("#q").value}”.<br>Escríbenos por WhatsApp y te ayudamos a encontrarlo.</div>`;
+}
+
+function abrir(n){
+  const m = $("#modal"), e = estado(n);
+  const horarioTxt = n.horario ? n.horario.map((h,i)=>`${DIAS[i]}: ${h?fmt12(h[0])+" – "+fmt12(h[1]):"cerrado"}`) : null;
+  const ordenDias = [1,2,3,4,5,6,0];
+  m.innerHTML = `
+    <div class="m-head">${thumb(n)}</div><button class="m-close" aria-label="Cerrar">✕</button></div>
+    <div class="m-body">
+      <h2>${n.nombre}</h2>
+      ${n.responsable?`<div class="note">${n.responsable}</div>`:""}
+      <p class="desc">${n.descripcion}</p>
+      <div class="info">
+        ${e?`<div>🕒 <span style="color:var(${e.on?"--open":"--closed"});font-weight:700">${e.txt}</span></div>`:""}
+        ${n.ubicacion?`<div>📍 ${n.ubicacion}</div>`:""}
+        ${n.entrega?`<div>🛵 ${n.entrega}</div>`:""}
+        ${n.pagos?`<div>💳 ${n.pagos.join(" · ")}</div>`:""}
+        ${n.instagram?`<div>📸 <a href="https://instagram.com/${n.instagram}" target="_blank" rel="noopener">@${n.instagram}</a></div>`:""}
+        ${n.pendiente?`<div class="pend">⚠ ${n.pendiente}</div>`:""}
+      </div>
+      ${horarioTxt?`<details><summary class="note">Ver horario completo</summary><div class="note" style="margin-top:6px">${ordenDias.map(i=>horarioTxt[i]).join("<br>")}</div></details>`:""}
+      <p class="note" style="margin-top:14px">Selecciona lo que te interesa y te atendemos por WhatsApp:</p>
+      ${(n.secciones||[]).map((s,si)=>`
+        <div class="sec"><h3>${s.titulo}</h3>
+        ${s.items.map((it,ii)=>`<div class="item"><label><input type="checkbox" value="${s.titulo} – ${it.n}"><span>${it.n}${it.d?`<br><small class="note">${it.d}</small>`:""}</span></label>${it.p?`<span class="price">${money(it.p)}</span>`:""}</div>`).join("")}
+        </div>`).join("")}
+      ${n.nota?`<p class="note" style="margin-top:12px">${n.nota}</p>`:""}
+    </div>
+    <div class="cta"><a class="btn-wa" id="wa-btn" target="_blank" rel="noopener">${btnTxt(n,0)}</a></div>`;
+  const btn = m.querySelector("#wa-btn");
+  const upd = () => {
+    const sel = [...m.querySelectorAll("input:checked")].map(i=>i.value.split(" – ").pop());
+    btn.href = waLink(n, sel); btn.innerHTML = btnTxt(n, sel.length);
+  };
+  m.querySelectorAll("input").forEach(i=>i.addEventListener("change",upd));
+  m.querySelector(".m-close").onclick = () => m.close();
+  m.addEventListener("click", ev => { if (ev.target===m) m.close(); });
+  upd();
+  m.showModal();
+}
+
+function btnTxt(n, k){
+  const verbo = {servicio:"Solicitar servicio", cita:"Agendar cita", pedido:"Hacer pedido"}[n.tipo] || "Escribir";
+  return `💬 ${verbo} por WhatsApp${k?` (${k})`:""}`;
+}
+
+/* eventos */
+$("#chips").addEventListener("click", e => {
+  const b = e.target.closest(".chip"); if (!b) return;
+  filtro = b.dataset.id; renderChips(); renderGrid();
+});
+$("#q").addEventListener("input", renderGrid);
+$("#grid").addEventListener("click", e => {
+  const c = e.target.closest(".card"); if (c) abrir(NEGOCIOS.find(n=>n.id===c.dataset.id));
+});
+$("#grid").addEventListener("keydown", e => {
+  const c = e.target.closest(".card"); if (c && e.key==="Enter") abrir(NEGOCIOS.find(n=>n.id===c.dataset.id));
+});
+$("#fab").href = `https://wa.me/${WA_PLATAFORMA}?text=${encodeURIComponent("Hola 👋 Vengo de Vecinos Bonaterra, busco un servicio. (ref: "+REF+"-general)")}`;
+$("#alta").href = `https://wa.me/${WA_PLATAFORMA}?text=${encodeURIComponent("Hola, tengo un negocio en Bonaterra y quiero aparecer en el directorio. (ref: alta-proveedor)")}`;
+
+renderChips(); renderBanner(); renderGrid();
+</script>
+</body>
+</html>
