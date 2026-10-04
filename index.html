@@ -2,166 +2,368 @@
 <html lang="es">
 <head>
 <meta charset="utf-8">
-<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
 <title>Vecinos Bonaterra</title>
-<link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;600;700;800&display=swap" rel="stylesheet">
+<meta name="description" content="Servicios, comida y negocios de Bonaterra, Tepic. Encuentra lo que necesitas y pídelo por WhatsApp en un minuto.">
+<meta name="theme-color" content="#F4EFE6" media="(prefers-color-scheme: light)">
+<meta name="theme-color" content="#14120F" media="(prefers-color-scheme: dark)">
+<meta property="og:title" content="Vecinos Bonaterra">
+<meta property="og:description" content="Todo Bonaterra, a un mensaje. Servicios, comida y arreglos para tu casa.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,500;12..96,700;12..96,800&family=Instrument+Sans:wght@400;500;600;700&display=swap" rel="stylesheet">
+<script src="https://unpkg.com/lucide@0.469.0/dist/umd/lucide.min.js" defer></script>
 <style>
 :root{
-  --bg:#f6f7f4; --card:#ffffff; --ink:#1b2a22; --muted:#5f6f66; --line:#e3e7e2;
-  --brand:#1f6f4a; --brand-2:#2f9a68; --accent:#f2b134; --wa:#25d366;
-  --open:#1f8a4c; --closed:#b54141; --shadow:0 2px 10px rgba(20,40,30,.07);
+  --bg:#F4EFE6; --surface:#FFFDF8; --surface-2:#EFE8DC; --ink:#1E1B16; --muted:#62594D; --line:#E3D9C8;
+  --agave:#1F5C4A; --agave-ink:#FFFFFF; --terra:#D9572F; --terra-soft:#F8DFD3; --lime:#D4F26A; --lime-ink:#1E2A05;
+  --open:#1B7A48; --closed:#B23A2E; --wa:#25D366; --wa-ink:#05361B;
+  --r-lg:28px; --r-md:20px; --r-sm:14px;
+  --shadow:0 1px 0 rgba(30,27,22,.04), 0 8px 24px -12px rgba(30,27,22,.18);
+  --shadow-lg:0 30px 80px -20px rgba(30,27,22,.45);
+  --ease:cubic-bezier(.2,.8,.2,1);
+  --grain:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='160' height='160'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.85' numOctaves='3' stitchTiles='stitch'/%3E%3CfeColorMatrix values='0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 .07 0'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
+  color-scheme:light;
 }
 @media (prefers-color-scheme: dark){
   :root:not([data-theme="light"]){
-    --bg:#111613; --card:#1a211d; --ink:#e8eee9; --muted:#9db0a5; --line:#2a342e;
-    --brand:#3fb47c; --brand-2:#5fd09a; --accent:#f2b134; --shadow:0 2px 10px rgba(0,0,0,.35);
-    --open:#4fd08a; --closed:#ff7b7b;
+    --bg:#14120F; --surface:#1E1B17; --surface-2:#27231D; --ink:#F3EDE2; --muted:#AEA597; --line:#332E27;
+    --agave:#6FCBA8; --agave-ink:#06231A; --terra:#F07A55; --terra-soft:#3A2219; --lime:#C8EC5A;
+    --open:#5BD496; --closed:#FF8A7A; --shadow:0 8px 24px -12px rgba(0,0,0,.6); color-scheme:dark;
   }
 }
 :root[data-theme="dark"]{
-  --bg:#111613; --card:#1a211d; --ink:#e8eee9; --muted:#9db0a5; --line:#2a342e;
-  --brand:#3fb47c; --brand-2:#5fd09a; --accent:#f2b134; --shadow:0 2px 10px rgba(0,0,0,.35);
-  --open:#4fd08a; --closed:#ff7b7b;
+  --bg:#14120F; --surface:#1E1B17; --surface-2:#27231D; --ink:#F3EDE2; --muted:#AEA597; --line:#332E27;
+  --agave:#6FCBA8; --agave-ink:#06231A; --terra:#F07A55; --terra-soft:#3A2219; --lime:#C8EC5A;
+  --open:#5BD496; --closed:#FF8A7A; --shadow:0 8px 24px -12px rgba(0,0,0,.6); color-scheme:dark;
 }
 *{box-sizing:border-box}
-body{margin:0;background:var(--bg);color:var(--ink);font-family:"Plus Jakarta Sans",system-ui,sans-serif;line-height:1.45}
-.wrap{max-width:1080px;margin:0 auto;padding:0 16px}
-header{background:linear-gradient(135deg,var(--brand),var(--brand-2));color:#fff;padding:28px 0 64px}
-header h1{margin:0;font-size:clamp(1.6rem,4.5vw,2.4rem);font-weight:800;letter-spacing:-.02em}
-header p{margin:6px 0 0;opacity:.92;max-width:560px}
-.search{margin-top:-30px;position:relative;z-index:2}
-.search input{width:100%;padding:16px 18px 16px 48px;font:inherit;font-size:1.05rem;border-radius:14px;border:1px solid var(--line);background:var(--card);color:var(--ink);box-shadow:var(--shadow);outline:none}
-.search input:focus{border-color:var(--brand)}
-.search svg{position:absolute;left:16px;top:50%;transform:translateY(-50%);color:var(--muted)}
-.chips{display:flex;gap:8px;overflow-x:auto;padding:16px 0 4px;scrollbar-width:none}
-.chips::-webkit-scrollbar{display:none}
-.chip{flex:0 0 auto;border:1px solid var(--line);background:var(--card);color:var(--ink);padding:8px 14px;border-radius:999px;font:inherit;font-size:.92rem;cursor:pointer;white-space:nowrap}
-.chip[aria-pressed="true"]{background:var(--brand);border-color:var(--brand);color:#fff}
-.banner{margin:16px 0 4px;background:var(--card);border:1px solid var(--line);border-left:5px solid var(--accent);border-radius:12px;padding:14px 16px;display:flex;gap:12px;align-items:center;box-shadow:var(--shadow);cursor:pointer}
-.banner b{display:block}
-.banner small{color:var(--muted)}
-.banner .emoji{font-size:1.8rem}
-.count{color:var(--muted);font-size:.9rem;margin:14px 0 8px}
-.grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(250px,1fr));gap:14px;padding-bottom:40px}
-.card{background:var(--card);border:1px solid var(--line);border-radius:16px;overflow:hidden;box-shadow:var(--shadow);display:flex;flex-direction:column;cursor:pointer;transition:transform .12s}
-.card:hover{transform:translateY(-2px)}
-.thumb{aspect-ratio:16/10;background:#ddd center/cover no-repeat;position:relative}
-.thumb.emoji{display:grid;place-items:center;font-size:3rem;background:linear-gradient(135deg,#fde9b8,#f6c76b)}
-.status{position:absolute;top:10px;left:10px;font-size:.75rem;font-weight:700;padding:4px 9px;border-radius:999px;background:rgba(255,255,255,.95);color:#222}
-.status.on{color:#1f8a4c}.status.off{color:#b54141}
-.body{padding:12px 14px 14px;display:flex;flex-direction:column;gap:6px;flex:1}
-.cat{font-size:.75rem;font-weight:700;color:var(--brand);text-transform:uppercase;letter-spacing:.04em}
-.name{font-weight:800;font-size:1.08rem;margin:0}
-.desc{color:var(--muted);font-size:.9rem;margin:0}
-.tags{display:flex;flex-wrap:wrap;gap:5px;margin-top:auto;padding-top:6px}
-.tag{font-size:.75rem;background:var(--bg);border:1px solid var(--line);padding:3px 8px;border-radius:999px;color:var(--muted)}
-.pend{font-size:.72rem;color:var(--closed);font-weight:600}
-.empty{text-align:center;color:var(--muted);padding:40px 0}
-/* modal */
-dialog{border:none;padding:0;border-radius:18px;width:min(560px,calc(100% - 24px));max-height:88vh;background:var(--card);color:var(--ink);box-shadow:0 20px 60px rgba(0,0,0,.35)}
-dialog::backdrop{background:rgba(10,20,15,.55)}
-.m-head{position:relative}
-.m-head .thumb{aspect-ratio:16/8}
-.m-close{position:absolute;top:10px;right:10px;width:36px;height:36px;border-radius:50%;border:none;background:rgba(255,255,255,.95);font-size:1.2rem;cursor:pointer;color:#222}
-.m-body{padding:16px 18px 20px;overflow:auto;max-height:calc(88vh - 220px)}
-.m-body h2{margin:2px 0 4px;font-size:1.4rem}
-.info{display:grid;gap:6px;margin:12px 0;font-size:.92rem}
-.info div{display:flex;gap:8px}
-.sec{margin-top:16px}
-.sec h3{font-size:.95rem;margin:0 0 6px;color:var(--brand)}
-.item{display:flex;justify-content:space-between;align-items:center;gap:10px;padding:9px 10px;border:1px solid var(--line);border-radius:10px;margin-bottom:6px;cursor:pointer;font-size:.93rem}
-.item input{accent-color:var(--brand)}
-.item label{display:flex;gap:8px;align-items:center;flex:1;cursor:pointer}
-.item .price{font-weight:700;white-space:nowrap}
-.note{font-size:.82rem;color:var(--muted)}
-.cta{position:sticky;bottom:0;background:var(--card);border-top:1px solid var(--line);padding:12px 18px}
-.btn-wa{display:flex;align-items:center;justify-content:center;gap:10px;width:100%;padding:14px;border:none;border-radius:12px;background:var(--wa);color:#063;font:inherit;font-weight:800;font-size:1rem;cursor:pointer;text-decoration:none}
-footer{border-top:1px solid var(--line);padding:22px 0 40px;color:var(--muted);font-size:.85rem}
-footer a{color:var(--brand)}
-/* navegación */
-.tabs{display:flex;gap:6px;margin-top:18px}
-.tab{color:#fff;text-decoration:none;font-weight:700;font-size:.92rem;padding:8px 14px;border-radius:999px;background:rgba(255,255,255,.14)}
-.tab[aria-current="page"]{background:#fff;color:var(--brand)}
+html{-webkit-text-size-adjust:100%;scroll-behavior:smooth}
+body{margin:0;background:var(--bg);color:var(--ink);font:16px/1.55 "Instrument Sans",system-ui,sans-serif;min-height:100dvh;padding-bottom:calc(96px + env(safe-area-inset-bottom))}
+body::before{content:"";position:fixed;inset:0;background:var(--grain);pointer-events:none;z-index:100;opacity:.9}
+h1,h2,h3,.display{font-family:"Bricolage Grotesque",system-ui,sans-serif;letter-spacing:-.025em;line-height:1.05;margin:0}
+a{color:inherit}
+button{font:inherit;color:inherit}
+:focus-visible{outline:3px solid var(--terra);outline-offset:3px;border-radius:12px}
+.wrap{max-width:1120px;margin:0 auto;padding:0 16px}
+.lucide{width:1.2em;height:1.2em;stroke-width:2;flex:0 0 auto}
 [hidden]{display:none!important}
-/* mejorando la casa */
-.promo{margin:16px 0 4px;display:flex;gap:14px;align-items:center;padding:16px;border-radius:14px;text-decoration:none;color:#fff;background:linear-gradient(135deg,#d9622b,#f0973a);box-shadow:var(--shadow)}
-.promo .emoji{font-size:2.2rem}
-.promo b{display:block;font-size:1.08rem}
-.promo small{opacity:.92}
-.promo .go{margin-left:auto;font-size:1.4rem}
-.hint{margin:10px 0 0;font-size:.9rem;color:var(--muted)}
-.hint a{color:var(--brand);font-weight:700}
-.grupo{margin:22px 0 8px;font-size:1.05rem;font-weight:800}
-.sgrid{display:grid;grid-template-columns:repeat(auto-fill,minmax(160px,1fr));gap:10px}
-.stile{background:var(--card);border:1px solid var(--line);border-radius:14px;padding:14px 12px;text-align:left;font:inherit;color:var(--ink);cursor:pointer;display:flex;flex-direction:column;gap:4px;box-shadow:var(--shadow);transition:transform .12s}
-.stile:hover{transform:translateY(-2px);border-color:var(--brand)}
-.stile .ico{font-size:1.7rem}
-.stile b{font-size:.95rem;line-height:1.25}
-.stile small{color:var(--muted);font-size:.78rem;line-height:1.3}
-.badge{margin-top:auto;padding-top:6px;font-size:.72rem;font-weight:700}
-.badge.ok{color:var(--open)}.badge.new{color:#d9622b}
-.urg{display:flex;gap:6px;flex-wrap:wrap}
-.urg label{flex:1 1 auto;border:1px solid var(--line);border-radius:10px;padding:9px 10px;font-size:.88rem;cursor:pointer;display:flex;gap:6px;align-items:center}
-.urg input{accent-color:var(--brand)}
-.prov{display:flex;align-items:center;gap:10px;padding:10px;border:1px solid var(--line);border-radius:10px;margin-bottom:6px;width:100%;background:none;color:var(--ink);font:inherit;text-align:left;cursor:pointer}
-.prov .av{width:42px;height:42px;border-radius:10px;background:#ddd center/cover no-repeat;flex:0 0 auto}
-.prov small{color:var(--muted)}
-.callout{background:var(--bg);border:1px dashed var(--line);border-radius:10px;padding:10px 12px;font-size:.88rem;color:var(--muted)}
-textarea{width:100%;font:inherit;font-size:.9rem;padding:10px;border-radius:10px;border:1px solid var(--line);background:var(--card);color:var(--ink);resize:vertical;min-height:60px}
-.fab{position:fixed;right:16px;bottom:16px;width:58px;height:58px;border-radius:50%;background:var(--wa);display:grid;place-items:center;box-shadow:0 6px 18px rgba(0,0,0,.25);z-index:5}
+.sr{position:absolute;width:1px;height:1px;overflow:hidden;clip:rect(0 0 0 0)}
+
+/* ---------- top bar ---------- */
+.top{position:sticky;top:0;z-index:30;padding:10px 0;background:color-mix(in oklab,var(--bg) 82%,transparent);backdrop-filter:blur(14px) saturate(1.4);-webkit-backdrop-filter:blur(14px) saturate(1.4);border-bottom:1px solid transparent;transition:border-color .2s}
+.top.scrolled{border-color:var(--line)}
+.top .wrap{display:flex;align-items:center;gap:12px}
+.logo{display:flex;align-items:center;gap:9px;text-decoration:none;font-family:"Bricolage Grotesque";font-weight:800;font-size:1.12rem;letter-spacing:-.03em}
+.logo .mark{width:34px;height:34px;border-radius:11px;background:var(--agave);color:var(--agave-ink);display:grid;place-items:center;rotate:-6deg}
+.logo small{display:block;font-family:"Instrument Sans";font-weight:600;font-size:.68rem;letter-spacing:.08em;text-transform:uppercase;color:var(--muted);margin-top:2px}
+.topnav{margin-left:auto;display:none;gap:4px;background:var(--surface);border:1px solid var(--line);padding:4px;border-radius:999px}
+.topnav a{text-decoration:none;font-weight:600;font-size:.92rem;padding:8px 16px;border-radius:999px;transition:background .2s}
+.topnav a[aria-current="page"]{background:var(--ink);color:var(--bg)}
+@media (min-width:820px){ .topnav{display:flex} }
+
+/* ---------- hero ---------- */
+.hero{padding:26px 0 8px}
+.greet{display:inline-flex;align-items:center;gap:8px;font-weight:600;font-size:.88rem;color:var(--muted);margin-bottom:14px}
+.greet .dot{width:8px;height:8px;border-radius:50%;background:var(--open);box-shadow:0 0 0 0 var(--open);animation:pulse 2s infinite}
+@keyframes pulse{70%{box-shadow:0 0 0 8px transparent}100%{box-shadow:0 0 0 0 transparent}}
+.hero h1{font-size:clamp(2.6rem,10.5vw,5.2rem);font-weight:800;max-width:12ch}
+.mark-lime{background:var(--lime);color:var(--lime-ink);padding:0 .14em;border-radius:.12em;box-decoration-break:clone;-webkit-box-decoration-break:clone;display:inline-block;rotate:-1.5deg;margin-top:.08em}
+.hero p.lead{color:var(--muted);font-size:1.05rem;max-width:46ch;margin:14px 0 0}
+
+/* search */
+.search{position:relative;margin-top:22px}
+.search .lucide{position:absolute;left:20px;top:50%;translate:0 -50%;color:var(--muted);width:22px;height:22px}
+.search input{width:100%;height:62px;padding:0 20px 0 54px;font:500 1.05rem "Instrument Sans";border-radius:999px;border:1.5px solid var(--line);background:var(--surface);color:var(--ink);box-shadow:var(--shadow);outline:none;transition:border-color .2s,box-shadow .2s}
+.search input:focus{border-color:var(--ink);box-shadow:0 0 0 5px color-mix(in oklab,var(--lime) 60%,transparent)}
+.search input::placeholder{color:var(--muted)}
+.quick{display:flex;gap:8px;flex-wrap:wrap;margin-top:12px}
+.quick button{border:1px dashed var(--line);background:transparent;padding:8px 13px;border-radius:999px;font-size:.88rem;font-weight:600;color:var(--muted);cursor:pointer;min-height:40px;transition:all .2s}
+.quick button:hover{border-style:solid;border-color:var(--ink);color:var(--ink)}
+.hint{margin:14px 0 0;padding:12px 14px;border-radius:var(--r-sm);background:var(--terra-soft);font-size:.92rem;display:flex;gap:8px;align-items:center;flex-wrap:wrap}
+.hint a{font-weight:700;color:var(--terra);text-decoration:none}
+
+/* marquee */
+.marquee{margin:26px 0 6px;overflow:hidden;border-block:1px solid var(--line);padding:12px 0;mask-image:linear-gradient(90deg,transparent,#000 8%,#000 92%,transparent)}
+.marquee .track{display:flex;gap:28px;width:max-content;animation:marq 60s linear infinite}
+.marquee span{font-family:"Bricolage Grotesque";font-weight:700;font-size:1.05rem;white-space:nowrap;display:flex;align-items:center;gap:28px;color:var(--muted)}
+.marquee span::after{content:"✦";color:var(--terra);font-size:.8rem}
+@keyframes marq{to{translate:-50% 0}}
+
+/* ---------- bento ---------- */
+section{scroll-margin-top:70px}
+.sec-title{display:flex;align-items:end;justify-content:space-between;gap:12px;margin:34px 0 14px}
+.sec-title h2{font-size:clamp(1.5rem,5vw,2.1rem);font-weight:800}
+.sec-title .meta{text-align:right;text-transform:capitalize;color:var(--muted);font-size:.9rem;font-weight:600}
+.bento{display:grid;grid-template-columns:1fr 1fr;gap:12px}
+.tile{border-radius:var(--r-lg);padding:18px;background:var(--surface);border:1px solid var(--line);box-shadow:var(--shadow);text-decoration:none;display:flex;flex-direction:column;gap:6px;min-height:150px;position:relative;overflow:hidden;cursor:pointer;transition:transform .3s var(--ease),box-shadow .3s}
+.tile:hover{transform:translateY(-3px);box-shadow:var(--shadow-lg)}
+.tile .big{font-family:"Bricolage Grotesque";font-weight:800;font-size:clamp(1.9rem,8vw,2.6rem);line-height:1;letter-spacing:-.04em}
+.tile .lbl{font-weight:600;font-size:.92rem}
+.tile .sub{font-size:.82rem;color:var(--muted)}
+.tile .ico{width:42px;height:42px;border-radius:14px;display:grid;place-items:center;background:var(--surface-2);margin-bottom:auto}
+.tile.casa{grid-column:span 2;background:var(--terra);color:#fff;border-color:transparent;min-height:190px}
+.tile.casa .ico{background:rgba(255,255,255,.18)}
+.tile.casa h3{font-size:1.9rem;font-weight:800;max-width:14ch}
+.tile.casa .sub{color:rgba(255,255,255,.88)}
+.tile.casa .arrow{position:absolute;right:16px;bottom:16px;width:52px;height:52px;border-radius:50%;background:#fff;color:var(--terra);display:grid;place-items:center;transition:rotate .3s var(--ease)}
+.tile.casa:hover .arrow{rotate:-45deg}
+.tile.casa .deco{position:absolute;right:-30px;top:-30px;width:160px;height:160px;border-radius:50%;border:26px solid rgba(255,255,255,.1)}
+.tile.lime{background:var(--lime);color:var(--lime-ink);border-color:transparent}
+.tile.lime .sub{color:color-mix(in oklab,var(--lime-ink) 70%,transparent)}
+.tile.lime .ico{background:rgba(0,0,0,.08)}
+.tile.dark{background:var(--agave);color:var(--agave-ink);border-color:transparent}
+.tile.dark .sub{color:color-mix(in oklab,var(--agave-ink) 75%,transparent)}
+.tile.dark .ico{background:rgba(255,255,255,.14)}
+@media (min-width:820px){
+  .bento{grid-template-columns:2fr 1fr 1fr;grid-auto-rows:minmax(170px,auto)}
+  .tile.casa{grid-column:1;grid-row:span 2;min-height:auto}
+  .tile.casa h3{font-size:2.6rem}
+}
+
+/* ---------- chips ---------- */
+.rail{display:flex;gap:8px;overflow-x:auto;scroll-snap-type:x mandatory;padding:4px 16px 8px;margin:0 -16px;scrollbar-width:none}
+.rail::-webkit-scrollbar{display:none}
+.chip{scroll-snap-align:start;flex:0 0 auto;display:inline-flex;align-items:center;gap:7px;border:1.5px solid var(--line);background:var(--surface);padding:0 15px;height:44px;border-radius:999px;font-weight:600;font-size:.92rem;cursor:pointer;white-space:nowrap;transition:all .2s}
+.chip:hover{border-color:var(--ink)}
+.chip[aria-pressed="true"]{background:var(--ink);border-color:var(--ink);color:var(--bg)}
+.toggle{display:inline-flex;align-items:center;gap:10px;font-weight:600;font-size:.9rem;cursor:pointer;user-select:none;min-height:44px}
+.toggle input{appearance:none;width:44px;height:26px;border-radius:999px;background:var(--line);position:relative;cursor:pointer;transition:background .2s;margin:0}
+.toggle input::after{content:"";position:absolute;top:3px;left:3px;width:20px;height:20px;border-radius:50%;background:#fff;box-shadow:0 1px 3px rgba(0,0,0,.3);transition:translate .25s var(--ease)}
+.toggle input:checked{background:var(--open)}
+.toggle input:checked::after{translate:18px 0}
+.filters{display:flex;align-items:center;justify-content:space-between;gap:10px;flex-wrap:wrap;margin-top:6px}
+
+/* ---------- cards ---------- */
+.grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(260px,1fr));gap:14px;margin-top:10px}
+.card{background:var(--surface);border:1px solid var(--line);border-radius:var(--r-lg);overflow:hidden;display:flex;flex-direction:column;cursor:pointer;text-align:left;padding:0;box-shadow:var(--shadow);transition:transform .3s var(--ease),box-shadow .3s}
+.card:hover{transform:translateY(-4px);box-shadow:var(--shadow-lg)}
+.card:hover .media img{scale:1.04}
+.media{position:relative;aspect-ratio:16/10;overflow:hidden;background:var(--surface-2);margin:8px 8px 0;border-radius:calc(var(--r-lg) - 8px)}
+.media img{width:100%;height:100%;object-fit:cover;display:block;transition:scale .5s var(--ease)}
+.media.logo img{object-fit:contain;padding:8%}
+.media.ph{display:grid;place-items:center;background:var(--lime);color:var(--lime-ink)}
+.media.ph .lucide{width:56px;height:56px;stroke-width:1.6}
+.status{position:absolute;left:10px;top:10px;display:inline-flex;align-items:center;gap:6px;font-size:.75rem;font-weight:700;padding:5px 10px;border-radius:999px;background:color-mix(in oklab,var(--surface) 88%,transparent);backdrop-filter:blur(8px);-webkit-backdrop-filter:blur(8px);color:var(--ink)}
+.status i{width:7px;height:7px;border-radius:50%;background:var(--closed)}
+.status.on i{background:var(--open);animation:pulse 2s infinite;box-shadow:0 0 0 0 var(--open)}
+.cbody{padding:14px 16px 16px;display:flex;flex-direction:column;gap:6px;flex:1}
+.kicker{font-size:.72rem;font-weight:700;text-transform:uppercase;letter-spacing:.08em;color:var(--terra);display:flex;align-items:center;gap:6px}
+.card h3{font-size:1.32rem;font-weight:800}
+.card p{margin:0;color:var(--muted);font-size:.92rem}
+.tags{display:flex;flex-wrap:wrap;gap:5px;margin-top:auto;padding-top:8px}
+.tag{font-size:.76rem;font-weight:600;background:var(--surface-2);padding:4px 9px;border-radius:999px;color:var(--muted)}
+.pend{font-size:.76rem;font-weight:600;color:var(--closed);display:flex;gap:5px;align-items:center}
+.count{color:var(--muted);font-size:.9rem;font-weight:600}
+.empty{grid-column:1/-1;text-align:center;padding:40px 16px;color:var(--muted);border:1.5px dashed var(--line);border-radius:var(--r-lg)}
+.empty b{display:block;font-family:"Bricolage Grotesque";font-size:1.4rem;color:var(--ink);margin-bottom:6px}
+
+/* scroll-driven reveal */
+@supports (animation-timeline: view()){
+  @media (prefers-reduced-motion: no-preference){
+    .reveal{animation:rise linear both;animation-timeline:view();animation-range:entry 0% entry 35%}
+    @keyframes rise{from{opacity:0;translate:0 28px;scale:.97}}
+  }
+}
+
+/* ---------- casa ---------- */
+.casa-hero{margin-top:18px;border-radius:var(--r-lg);background:var(--terra);color:#fff;padding:26px 20px 24px;position:relative;overflow:hidden}
+.casa-hero h1{font-size:clamp(2.2rem,8.5vw,4rem);font-weight:800;max-width:13ch}
+.casa-hero p{margin:12px 0 0;color:rgba(255,255,255,.9);max-width:44ch}
+.casa-hero .deco{position:absolute;right:-50px;bottom:-60px;width:220px;height:220px;border-radius:50%;border:34px solid rgba(255,255,255,.1)}
+.casa-hero .steps{display:flex;gap:8px;flex-wrap:wrap;margin-top:18px;position:relative}
+.casa-hero .steps span{background:rgba(255,255,255,.16);padding:7px 12px;border-radius:999px;font-size:.84rem;font-weight:600;display:flex;gap:6px;align-items:center}
+.casa-hero .steps b{background:#fff;color:var(--terra);width:20px;height:20px;border-radius:50%;display:grid;place-items:center;font-size:.75rem}
+.jump{position:sticky;top:64px;z-index:20;background:color-mix(in oklab,var(--bg) 85%,transparent);backdrop-filter:blur(12px);-webkit-backdrop-filter:blur(12px);padding-top:10px}
+.grupo{display:flex;align-items:center;gap:10px;margin:30px 0 12px;font-size:1.35rem;font-weight:800;scroll-margin-top:130px}
+.grupo .gi{width:38px;height:38px;border-radius:12px;background:var(--ink);color:var(--bg);display:grid;place-items:center}
+.sgrid{display:grid;grid-template-columns:repeat(auto-fill,minmax(158px,1fr));gap:10px}
+.stile{background:var(--surface);border:1px solid var(--line);border-radius:var(--r-md);padding:14px;text-align:left;cursor:pointer;display:flex;flex-direction:column;gap:6px;min-height:160px;box-shadow:var(--shadow);transition:transform .25s var(--ease),border-color .2s,box-shadow .25s}
+.stile:hover{transform:translateY(-3px);border-color:var(--ink);box-shadow:var(--shadow-lg)}
+.stile .si{width:44px;height:44px;border-radius:14px;display:grid;place-items:center;background:var(--terra-soft);color:var(--terra);margin-bottom:4px}
+.stile.has .si{background:color-mix(in oklab,var(--open) 16%,transparent);color:var(--open)}
+.stile b{font-family:"Bricolage Grotesque";font-size:1.05rem;line-height:1.15;letter-spacing:-.01em}
+.stile small{color:var(--muted);font-size:.8rem;line-height:1.35}
+.badge{margin-top:auto;padding-top:6px;font-size:.74rem;font-weight:700;display:flex;gap:5px;align-items:center}
+.badge.ok{color:var(--open)} .badge.new{color:var(--terra)}
+
+/* ---------- bottom sheet ---------- */
+dialog{border:none;padding:0;background:var(--surface);color:var(--ink);width:100%;max-width:600px;max-height:92dvh;margin:auto auto 0;border-radius:var(--r-lg) var(--r-lg) 0 0;box-shadow:var(--shadow-lg);overflow:hidden;
+  translate:0 100%;transition:translate .42s var(--ease),overlay .42s allow-discrete,display .42s allow-discrete}
+dialog[open]{translate:0 0;display:flex;flex-direction:column}
+@starting-style{dialog[open]{translate:0 100%}}
+dialog::backdrop{background:rgba(20,18,15,0);backdrop-filter:blur(0);transition:all .42s allow-discrete}
+dialog[open]::backdrop{background:rgba(20,18,15,.55);backdrop-filter:blur(4px)}
+@starting-style{dialog[open]::backdrop{background:rgba(20,18,15,0);backdrop-filter:blur(0)}}
+@media (min-width:720px){
+  dialog{margin:auto;border-radius:var(--r-lg);translate:0 40px;opacity:0;transition:translate .35s var(--ease),opacity .25s,overlay .35s allow-discrete,display .35s allow-discrete}
+  dialog[open]{translate:0 0;opacity:1}
+  @starting-style{dialog[open]{translate:0 40px;opacity:0}}
+}
+.grab{width:42px;height:5px;border-radius:9px;background:var(--line);margin:10px auto 0;flex:0 0 auto}
+.sheet{overflow:auto;flex:1;overscroll-behavior:contain}
+.sheet-media{margin:10px 12px 0;border-radius:var(--r-md);overflow:hidden;aspect-ratio:16/8;background:var(--surface-2);position:relative}
+.sheet-media img{width:100%;height:100%;object-fit:cover;display:block}
+.sheet-media.logo img{object-fit:contain;padding:6%}
+.sheet-media.ph{display:grid;place-items:center;background:var(--terra-soft);color:var(--terra);aspect-ratio:16/6}
+.sheet-media.ph .lucide{width:64px;height:64px;stroke-width:1.5}
+.x{position:absolute;top:12px;right:12px;width:44px;height:44px;border-radius:50%;border:none;background:color-mix(in oklab,var(--surface) 90%,transparent);backdrop-filter:blur(8px);display:grid;place-items:center;cursor:pointer;z-index:2;box-shadow:var(--shadow)}
+.sbody{padding:16px 18px 20px}
+.sbody h2{font-size:2rem;font-weight:800}
+.who{color:var(--muted);font-size:.88rem;font-weight:600;margin-top:4px}
+.facts{display:flex;flex-wrap:wrap;gap:6px;margin:14px 0 4px}
+.fact{display:inline-flex;align-items:center;gap:6px;font-size:.84rem;font-weight:600;background:var(--surface-2);padding:7px 11px;border-radius:999px}
+.fact.on{color:var(--open)} .fact.off{color:var(--closed)}
+.fact a{text-decoration:none}
+details.hours{margin-top:8px;font-size:.88rem;color:var(--muted)}
+details.hours summary{cursor:pointer;font-weight:600;padding:6px 0}
+details.hours table{border-collapse:collapse;width:100%;max-width:320px}
+details.hours td{padding:3px 0}
+details.hours tr.today{color:var(--ink);font-weight:700}
+.block{margin-top:20px}
+.block h3{font-size:1.05rem;font-weight:800;margin-bottom:10px;display:flex;align-items:center;gap:8px}
+.block h3 .n{font-family:"Instrument Sans";font-size:.72rem;background:var(--ink);color:var(--bg);width:22px;height:22px;border-radius:50%;display:grid;place-items:center}
+.opt{display:flex;align-items:center;gap:12px;padding:12px 14px;border:1.5px solid var(--line);border-radius:var(--r-sm);margin-bottom:8px;cursor:pointer;transition:border-color .15s,background .15s;min-height:52px}
+.opt:hover{border-color:color-mix(in oklab,var(--ink) 40%,var(--line))}
+.opt:has(input:checked){border-color:var(--ink);background:color-mix(in oklab,var(--lime) 28%,var(--surface))}
+.opt input{appearance:none;width:22px;height:22px;border:2px solid var(--line);border-radius:7px;display:grid;place-items:center;flex:0 0 auto;margin:0;cursor:pointer;transition:all .15s}
+.opt input:checked{background:var(--ink);border-color:var(--ink)}
+.opt input:checked::after{content:"";width:6px;height:11px;border:solid var(--bg);border-width:0 2.5px 2.5px 0;rotate:45deg;translate:0 -1px}
+.opt .t{flex:1;font-weight:600;font-size:.95rem;line-height:1.3}
+.opt .t small{display:block;font-weight:500;color:var(--muted);font-size:.8rem;margin-top:2px}
+.opt .p{font-family:"Bricolage Grotesque";font-weight:800;font-size:1.05rem;white-space:nowrap}
+.urg{display:grid;grid-template-columns:repeat(3,1fr);gap:8px}
+.urg label{border:1.5px solid var(--line);border-radius:var(--r-sm);padding:12px 8px;text-align:center;cursor:pointer;font-weight:700;font-size:.9rem;display:flex;flex-direction:column;align-items:center;gap:4px;transition:all .15s}
+.urg label small{font-weight:500;color:var(--muted);font-size:.74rem}
+.urg input{position:absolute;opacity:0;pointer-events:none}
+.urg label:has(input:checked){border-color:var(--ink);background:var(--ink);color:var(--bg)}
+.urg label:has(input:checked) small{color:color-mix(in oklab,var(--bg) 75%,transparent)}
+.urg label:has(input:focus-visible){outline:3px solid var(--terra);outline-offset:2px}
+textarea{width:100%;font:500 .95rem "Instrument Sans";padding:12px 14px;border-radius:var(--r-sm);border:1.5px solid var(--line);background:var(--surface);color:var(--ink);resize:vertical;min-height:84px;outline:none}
+textarea:focus{border-color:var(--ink)}
+.prov{display:flex;align-items:center;gap:12px;padding:10px;border:1.5px solid var(--line);border-radius:var(--r-sm);margin-bottom:8px;width:100%;background:none;text-align:left;cursor:pointer;min-height:60px}
+.prov:hover{border-color:var(--ink)}
+.prov img{width:46px;height:46px;border-radius:12px;object-fit:cover}
+.prov span{flex:1}
+.prov small{display:block;color:var(--open);font-weight:700;font-size:.78rem}
+.callout{display:flex;gap:10px;background:var(--terra-soft);border-radius:var(--r-sm);padding:14px;font-size:.9rem}
+.callout .lucide{color:var(--terra);margin-top:2px}
+.note{font-size:.84rem;color:var(--muted);margin-top:12px}
+.cta{padding:12px 16px calc(12px + env(safe-area-inset-bottom));border-top:1px solid var(--line);background:var(--surface);flex:0 0 auto}
+.btn-wa{display:flex;align-items:center;justify-content:center;gap:10px;width:100%;min-height:56px;padding:0 18px;border:none;border-radius:999px;background:var(--wa);color:var(--wa-ink);font:700 1.02rem "Instrument Sans";cursor:pointer;text-decoration:none;transition:transform .15s,filter .2s}
+.btn-wa:hover{filter:brightness(1.05)}
+.btn-wa:active{transform:scale(.98)}
+.btn-wa .cnt{background:var(--wa-ink);color:var(--wa);border-radius:999px;font-size:.78rem;padding:2px 8px}
+
+/* ---------- bottom nav (mobile) ---------- */
+.bnav{position:fixed;left:12px;right:12px;bottom:calc(12px + env(safe-area-inset-bottom));z-index:40;display:flex;align-items:center;justify-content:space-around;gap:4px;padding:8px;border-radius:26px;background:color-mix(in oklab,var(--ink) 92%,transparent);backdrop-filter:blur(16px);-webkit-backdrop-filter:blur(16px);color:var(--bg);box-shadow:var(--shadow-lg);max-width:460px;margin:0 auto}
+.bnav a{flex:1;display:flex;flex-direction:column;align-items:center;gap:2px;text-decoration:none;font-size:.7rem;font-weight:600;padding:6px 4px;border-radius:18px;min-height:48px;justify-content:center;opacity:.7;transition:opacity .2s,background .2s}
+.bnav a[aria-current="page"]{opacity:1;background:color-mix(in oklab,var(--bg) 14%,transparent)}
+.bnav a.wa{flex:0 0 auto;width:58px;height:58px;border-radius:50%;background:var(--wa);color:var(--wa-ink);opacity:1;margin-top:-26px;box-shadow:0 10px 24px -6px rgba(37,211,102,.6)}
+.bnav a.wa .lucide{width:26px;height:26px}
+@media (min-width:820px){ .bnav{display:none} body{padding-bottom:0} }
+
+footer{margin-top:60px;padding:30px 0 20px;border-top:1px solid var(--line);color:var(--muted);font-size:.88rem}
+footer .row{display:flex;justify-content:space-between;gap:16px;flex-wrap:wrap}
+footer .big{font-family:"Bricolage Grotesque";font-weight:800;font-size:clamp(1.6rem,6vw,2.4rem);color:var(--ink);letter-spacing:-.03em;line-height:1.05;max-width:16ch}
+footer a.cta-join{display:inline-flex;align-items:center;gap:8px;margin-top:14px;background:var(--ink);color:var(--bg);text-decoration:none;font-weight:700;padding:0 20px;min-height:48px;border-radius:999px}
+
+/* view transitions */
+::view-transition-old(root),::view-transition-new(root){animation-duration:.35s}
+@media (prefers-reduced-motion: reduce){
+  *,*::before,*::after{animation:none!important;transition:none!important}
+  html{scroll-behavior:auto}
+}
 </style>
 </head>
 <body>
 
-<header>
+<header class="top" id="top">
   <div class="wrap">
-    <h1>Vecinos Bonaterra</h1>
-    <p id="subtitulo">Servicios, comida y negocios de tu fraccionamiento. Encuentra lo que necesitas y pídelo por WhatsApp en un minuto.</p>
-    <nav class="tabs">
-      <a class="tab" href="#" data-view="dir">Directorio</a>
-      <a class="tab" href="#casa" data-view="casa">🛠️ Mejorando la casa</a>
+    <a class="logo" href="#" aria-label="Vecinos Bonaterra, inicio">
+      <span class="mark"><i data-lucide="house"></i></span>
+      <span>Vecinos Bonaterra<small>Tepic · Nayarit</small></span>
+    </a>
+    <nav class="topnav" aria-label="Secciones">
+      <a href="#" data-view="dir">Directorio</a>
+      <a href="#casa" data-view="casa">Mejorando la casa</a>
+      <a href="#" class="js-alta">Súmate</a>
     </nav>
   </div>
 </header>
 
 <main class="wrap">
-  <div class="search">
-    <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="11" cy="11" r="7"/><path d="m20 20-3.5-3.5"/></svg>
-    <input id="q" type="search" placeholder="¿Qué necesitas? Ej: lavado de auto, uñas, café, tamales…" autocomplete="off">
-  </div>
-
+  <!-- ============ DIRECTORIO ============ -->
   <div id="view-dir">
-    <p class="hint" id="casa-hint" hidden></p>
-    <div class="chips" id="chips" role="toolbar" aria-label="Categorías"></div>
+    <section class="hero">
+      <div class="greet"><span class="dot"></span><span id="greet">Hola, vecino</span></div>
+      <h1>Todo Bonaterra, <span class="mark-lime">a un mensaje.</span></h1>
+      <p class="lead">Negocios, comida y arreglos para tu casa, aquí mismo en el fraccionamiento. Elige, escríbenos y nosotros lo coordinamos.</p>
+      <div class="search" role="search">
+        <i data-lucide="search"></i>
+        <label class="sr" for="q">Buscar</label>
+        <input id="q" type="search" autocomplete="off" enterkeyhint="search">
+      </div>
+      <div class="quick" id="quick"></div>
+      <p class="hint" id="casa-hint" hidden></p>
+    </section>
 
-    <a class="promo" href="#casa">
-      <span class="emoji">🛠️</span>
-      <div><b>Mejorando la casa</b><small>Plomería, electricidad, minisplit, pintura, jardín y todo lo que tu casa necesita</small></div>
-      <span class="go">›</span>
-    </a>
-    <div class="banner" id="mercadito-banner"></div>
+    <div class="marquee" aria-hidden="true"><div class="track" id="marquee"></div></div>
 
-    <div class="count" id="count"></div>
-    <section class="grid" id="grid"></section>
+    <section aria-labelledby="hoy-t">
+      <div class="sec-title"><h2 id="hoy-t">Hoy en Bonaterra</h2><span class="meta" id="hoy-fecha"></span></div>
+      <div class="bento" id="bento"></div>
+    </section>
+
+    <section aria-labelledby="dir-t" id="directorio">
+      <div class="sec-title"><h2 id="dir-t">Directorio</h2><span class="count" id="count"></span></div>
+      <div class="rail" id="chips" role="toolbar" aria-label="Categorías"></div>
+      <div class="filters">
+        <label class="toggle"><input type="checkbox" id="solo-abiertos"> Abierto ahora</label>
+      </div>
+      <div class="grid" id="grid"></div>
+    </section>
   </div>
 
+  <!-- ============ MEJORANDO LA CASA ============ -->
   <div id="view-casa" hidden>
-    <div id="casa-list" style="padding-bottom:40px"></div>
+    <section class="casa-hero">
+      <span class="deco"></span>
+      <h1>¿Qué le hace falta a tu casa?</h1>
+      <p>Plomería, electricidad, minisplit, jardín y mucho más. Si aún no tenemos a alguien fijo para lo que necesitas, te lo conseguimos.</p>
+      <div class="steps"><span><b>1</b>Elige</span><span><b>2</b>Cuéntanos</span><span><b>3</b>Te confirmamos</span></div>
+    </section>
+    <div class="jump">
+      <div class="search" role="search" style="margin-top:0">
+        <i data-lucide="search"></i>
+        <label class="sr" for="qc">Buscar servicio</label>
+        <input id="qc" type="search" autocomplete="off" placeholder="Ej: fuga, no enfría, alacranes…" enterkeyhint="search">
+      </div>
+      <div class="rail" id="grupos" aria-label="Grupos" style="padding-top:10px"></div>
+    </div>
+    <div id="casa-list"></div>
   </div>
+
+  <footer>
+    <div class="row">
+      <div>
+        <div class="big">¿Tienes un negocio en Bonaterra?</div>
+        <a class="cta-join js-alta" href="#">Súmate al directorio <i data-lucide="arrow-up-right"></i></a>
+      </div>
+      <div style="align-self:end">Hecho en Bonaterra por <b>Delta Kilo Soluciones</b><br>Al escribirnos aceptas nuestro aviso de privacidad.</div>
+    </div>
+  </footer>
 </main>
 
-<footer>
-  <div class="wrap">
-    ¿Tienes un negocio o das un servicio en Bonaterra? <a href="#" id="alta">Súmate al directorio</a>.<br>
-    Al escribirnos aceptas nuestro aviso de privacidad (pendiente).
-  </div>
-</footer>
+<nav class="bnav" aria-label="Navegación">
+  <a href="#" data-view="dir"><i data-lucide="compass"></i>Explorar</a>
+  <a href="#casa" data-view="casa"><i data-lucide="hammer"></i>Casa</a>
+  <a class="wa" id="fab" target="_blank" rel="noopener" aria-label="Escríbenos por WhatsApp"><i data-lucide="message-circle"></i></a>
+  <a href="#directorio" data-view="none" id="nav-comida"><i data-lucide="utensils"></i>Comida</a>
+  <a href="#" class="js-alta"><i data-lucide="store"></i>Súmate</a>
+</nav>
 
-<a class="fab" id="fab" aria-label="Escríbenos por WhatsApp" target="_blank" rel="noopener">
-  <svg width="30" height="30" viewBox="0 0 24 24" fill="#fff"><path d="M12 2a10 10 0 0 0-8.6 15.1L2 22l5-1.3A10 10 0 1 0 12 2Zm5.3 14.2c-.2.6-1.3 1.2-1.8 1.2-.5.1-1 .2-3.3-.7-2.8-1.1-4.6-4-4.7-4.2-.1-.2-1.1-1.5-1.1-2.9s.7-2 1-2.3c.2-.3.5-.3.7-.3h.5c.2 0 .4 0 .6.5l.8 2c.1.2.1.4 0 .5l-.3.5-.4.4c-.1.1-.3.3-.1.6.2.3.8 1.3 1.7 2.1 1.2 1 2.1 1.4 2.4 1.5.3.1.5.1.6-.1l.9-1c.2-.3.4-.2.6-.1l1.9.9c.3.1.5.2.5.3.1.2.1.8-.1 1.4Z"/></svg>
-</a>
-
-<dialog id="modal"></dialog>
+<dialog id="modal" aria-label="Detalle"></dialog>
 
 <script>
 /* ============ CONFIGURACIÓN ============ */
@@ -169,19 +371,19 @@ textarea{width:100%;font:inherit;font-size:.9rem;padding:10px;border-radius:10px
 const WA_PLATAFORMA = "525663864984"; // Delta Kilo (+52 1 56 6386 4984)
 const REF = "web";
 
-/* Horario: índice 0=domingo … 6=sábado. Cada día: ["HH:MM","HH:MM"] o null (cerrado). */
 const CATEGORIAS = [
-  {id:"todos",    label:"Todos"},
-  {id:"hogar",    label:"🏠 Hogar"},
-  {id:"auto",     label:"🚗 Auto"},
-  {id:"belleza",  label:"💅 Belleza"},
-  {id:"comida",   label:"🍽️ Comida"},
-  {id:"cafe",     label:"☕ Café"},
-  {id:"salud",    label:"🦷 Salud"},
-  {id:"tienda",   label:"🎁 Papelería y regalos"},
-  {id:"limpieza", label:"👟 Limpieza de tenis"},
-  {id:"mercadito",label:"🧺 Mercadito"},
+  {id:"todos",    label:"Todo",               i:"layout-grid"},
+  {id:"comida",   label:"Comida",             i:"utensils"},
+  {id:"cafe",     label:"Café",               i:"coffee"},
+  {id:"hogar",    label:"Hogar",              i:"house"},
+  {id:"auto",     label:"Auto",               i:"car"},
+  {id:"belleza",  label:"Belleza",            i:"scissors"},
+  {id:"salud",    label:"Salud",              i:"stethoscope"},
+  {id:"tienda",   label:"Papelería y regalos",i:"gift"},
+  {id:"limpieza", label:"Tenis y accesorios", i:"footprints"},
+  {id:"mercadito",label:"Mercadito",          i:"shopping-basket"},
 ];
+const QUICK = ["Plomero","Minisplit","Hamburguesas","Café","Maquillaje","Alacranes","Dentista","Tinaco"];
 
 const NEGOCIOS = [
   {
@@ -338,7 +540,7 @@ const NEGOCIOS = [
     nombre:"Mercadito del Parque Lineal",
     categorias:["mercadito","comida"],
     descripcion:"Todos los miércoles en el Parque Lineal. Productos frescos y artesanales de vecinos.",
-    emoji:"🧺",
+    icon:"shopping-basket",
     tipo:"pedido",
     ubicacion:"Parque Lineal, Bonaterra",
     soloDia:3, // miércoles
@@ -354,92 +556,97 @@ const NEGOCIOS = [
    Catálogo de servicios del hogar. "prov" = ids de NEGOCIOS que lo ofrecen.
    Si no hay proveedor, la solicitud igual llega por WhatsApp y la plataforma consigue uno. */
 const CASA = [
-  {grupo:"🚨 Reparaciones y urgencias", servicios:[
-    {id:"plomeria", e:"🚰", n:"Plomería", d:"Fugas, WC, regaderas, llaves y tuberías.",
+  {grupo:"Reparaciones y urgencias", gi:"siren", servicios:[
+    {id:"plomeria", i:"droplet", n:"Plomería", d:"Fugas, WC, regaderas, llaves y tuberías.",
       p:["Fuga de agua","El WC no funciona o tira agua","Llave o regadera gotea","Instalar o cambiar muebles de baño","No llega agua / bomba o tinaco no llena","Cambio de tubería"], k:"plomero fontanero fuga agua baño wc taza regadera lavabo tuberia"},
-    {id:"electricidad", e:"⚡", n:"Electricista", d:"Apagones, contactos, lámparas y ventiladores.",
+    {id:"electricidad", i:"zap", n:"Electricista", d:"Apagones, contactos, lámparas y ventiladores.",
       p:["Se bota la pastilla / apagones","Contacto o apagador no sirve","Instalar lámpara o ventilador","Olor a quemado / cortocircuito","Ampliar o revisar instalación","Cambio de centro de carga"], k:"electricista luz electrico contacto apagador pastilla lampara ventilador corto"},
-    {id:"cerrajeria", e:"🔑", n:"Cerrajería", d:"Aperturas, cambio de chapas y copias.",
+    {id:"cerrajeria", i:"key-round", n:"Cerrajería", d:"Aperturas, cambio de chapas y copias.",
       p:["Me quedé afuera","Cambiar chapa o cilindro","Chapa de seguridad","Abrir caja fuerte o mueble"], k:"cerrajero llave chapa puerta abrir"},
-    {id:"desazolve", e:"🕳️", n:"Desazolve y drenaje", d:"Drenajes tapados, registros y malos olores.",
+    {id:"desazolve", i:"waves", n:"Desazolve y drenaje", d:"Drenajes tapados, registros y malos olores.",
       p:["Drenaje o coladera tapada","Registro desbordado","Malos olores","Limpieza preventiva de registros"], k:"desazolve drenaje tapado coladera registro olor caño"},
-    {id:"gas", e:"🔥", n:"Gas y calentadores", d:"Calentadores, boilers, fugas e instalaciones de gas.",
+    {id:"gas", i:"flame", n:"Gas y calentadores", d:"Calentadores, boilers, fugas e instalaciones de gas.",
       p:["Huele a gas","El calentador no enciende","Instalar calentador / boiler","Cambio de mangueras o regulador"], k:"gas boiler calentador fuga estufa regulador agua caliente"},
-    {id:"electrodomesticos", e:"🧺", n:"Reparación de electrodomésticos", d:"Lavadoras, refrigeradores, estufas y más.",
+    {id:"electrodomesticos", i:"washing-machine", n:"Reparación de electrodomésticos", d:"Lavadoras, refrigeradores, estufas y más.",
       p:["Lavadora","Secadora","Refrigerador","Estufa u horno","Microondas","Otro aparato"], k:"lavadora refri refrigerador estufa secadora reparacion tecnico linea blanca"},
   ]},
-  {grupo:"❄️ Clima y confort", servicios:[
-    {id:"minisplit", e:"❄️", n:"Aire acondicionado / minisplit", d:"Limpieza, mantenimiento, instalación y recarga de gas.",
+  {grupo:"Clima y confort", gi:"thermometer-snowflake", servicios:[
+    {id:"minisplit", i:"air-vent", n:"Aire acondicionado / minisplit", d:"Limpieza, mantenimiento, instalación y recarga de gas.",
       p:["Limpieza / mantenimiento","No enfría","Gotea agua","Instalar equipo nuevo","Recarga de gas","Hace ruido"], k:"minisplit clima aire acondicionado mantenimiento enfria"},
-    {id:"mosquiteros", e:"🦟", n:"Mosquiteros", d:"Mosquiteros nuevos y cambio de malla.",
+    {id:"mosquiteros", i:"bug", n:"Mosquiteros", d:"Mosquiteros nuevos y cambio de malla.",
       p:["Mosquiteros nuevos","Cambiar malla rota","Mosquitero para puerta"], k:"mosquitero malla moscos zancudos ventana"},
-    {id:"persianas", e:"🌤️", n:"Cortinas y persianas", d:"Instalación y reparación de persianas, cortinas y cortineros.",
+    {id:"persianas", i:"blinds", n:"Cortinas y persianas", d:"Instalación y reparación de persianas, cortinas y cortineros.",
       p:["Instalar persianas","Cortinas o cortineros","Reparar persiana"], k:"persiana cortina cortinero blackout"},
   ]},
-  {grupo:"🧰 Mantenimiento", servicios:[
-    {id:"pintura", e:"🎨", n:"Pintura", d:"Interiores, fachadas, bardas y herrería.", prov:["martinez-hogar"],
+  {grupo:"Mantenimiento", gi:"wrench", servicios:[
+    {id:"pintura", i:"paint-roller", n:"Pintura", d:"Interiores, fachadas, bardas y herrería.", prov:["martinez-hogar"],
       p:["Interiores","Fachada","Barda","Rejas / herrería","Manchas de humedad"], k:"pintor pintura pintar fachada barda pared"},
-    {id:"impermeabilizacion", e:"🏠", n:"Impermeabilización", d:"Goteras, filtraciones y mantenimiento antes de lluvias.", prov:["martinez-hogar"],
+    {id:"impermeabilizacion", i:"umbrella", n:"Impermeabilización", d:"Goteras, filtraciones y mantenimiento antes de lluvias.", prov:["martinez-hogar"],
       p:["Tengo goteras o filtraciones","Mantenimiento preventivo","Losa nueva"], k:"impermeabilizar impermeabilizante gotera techo losa humedad lluvia"},
-    {id:"tinacos", e:"💧", n:"Lavado de tinacos y aljibes", d:"Limpieza y desinfección del agua de tu casa.", prov:["martinez-hogar"],
+    {id:"tinacos", i:"cylinder", n:"Lavado de tinacos y aljibes", d:"Limpieza y desinfección del agua de tu casa.", prov:["martinez-hogar"],
       p:["Lavar tinaco","Lavar aljibe / cisterna","Ambos"], k:"tinaco aljibe cisterna lavado agua limpieza"},
-    {id:"fumigacion", e:"🐜", n:"Fumigación y plagas", d:"Alacranes, cucarachas, hormigas, termitas y más.",
+    {id:"fumigacion", i:"bug-off", n:"Fumigación y plagas", d:"Alacranes, cucarachas, hormigas, termitas y más.",
       p:["Alacranes","Cucarachas","Hormigas","Termitas","Mosquitos","Ratones"], k:"fumigar fumigacion plaga alacran cucaracha hormiga termita comejen raton"},
-    {id:"jardineria", e:"🌿", n:"Jardinería", d:"Corte de pasto, poda, riego y diseño de jardín.",
+    {id:"jardineria", i:"trees", n:"Jardinería", d:"Corte de pasto, poda, riego y diseño de jardín.",
       p:["Corte de pasto","Poda de árboles o plantas","Sistema de riego","Diseño o arreglo de jardín","Retiro de ramas"], k:"jardinero jardin pasto poda arbol riego plantas"},
   ]},
-  {grupo:"🧽 Limpieza", servicios:[
-    {id:"limpieza-hogar", e:"🧹", n:"Limpieza del hogar", d:"Limpieza general, profunda o después de obra.",
+  {grupo:"Limpieza", gi:"sparkles", servicios:[
+    {id:"limpieza-hogar", i:"sparkles", n:"Limpieza del hogar", d:"Limpieza general, profunda o después de obra.",
       p:["Limpieza general","Limpieza profunda","Después de obra o mudanza","Planchado","Vidrios y ventanas"], k:"limpieza aseo señora muchacha limpiar casa planchar"},
-    {id:"salas", e:"🛋️", n:"Lavado de salas, colchones y alfombras", d:"Lavado de muebles tapizados a domicilio.", prov:["martinez-hogar"],
+    {id:"salas", i:"sofa", n:"Lavado de salas, colchones y alfombras", d:"Lavado de muebles tapizados a domicilio.", prov:["martinez-hogar"],
       p:["Sala","Sillas","Colchón","Alfombra o tapete"], k:"sala sillon sofa sillas colchon alfombra tapete lavado vapor"},
   ]},
-  {grupo:"🏗️ Mejoras y remodelación", servicios:[
-    {id:"albanileria", e:"🧱", n:"Albañilería", d:"Ampliaciones, bardas, grietas y firmes.",
+  {grupo:"Mejoras y remodelación", gi:"hammer", servicios:[
+    {id:"albanileria", i:"brick-wall", n:"Albañilería", d:"Ampliaciones, bardas, grietas y firmes.",
       p:["Ampliación / cuarto extra","Barda","Reparar grietas","Firme, banqueta o cochera"], k:"albañil albañileria construccion ampliacion barda grieta cemento"},
-    {id:"pisos", e:"🔲", n:"Pisos y azulejo", d:"Instalación y cambio de piso y azulejo.",
+    {id:"pisos", i:"grid-3x3", n:"Pisos y azulejo", d:"Instalación y cambio de piso y azulejo.",
       p:["Instalar piso","Azulejo de baño o cocina","Reparar piezas levantadas o rotas"], k:"piso azulejo loseta porcelanato instalador"},
-    {id:"tablaroca", e:"📐", n:"Tablaroca y plafones", d:"Muros divisorios, plafones, nichos y repisas.",
+    {id:"tablaroca", i:"panels-top-left", n:"Tablaroca y plafones", d:"Muros divisorios, plafones, nichos y repisas.",
       p:["Muro divisorio","Plafón","Nichos o repisas","Reparación"], k:"tablaroca durock plafon muro nicho"},
-    {id:"herreria", e:"⚙️", n:"Herrería", d:"Protecciones, puertas, portones y soldadura.",
+    {id:"herreria", i:"fence", n:"Herrería", d:"Protecciones, puertas, portones y soldadura.",
       p:["Protecciones","Puerta o portón","Barandal","Pérgola","Reparación / soldadura"], k:"herrero herreria proteccion porton reja soldadura barandal"},
-    {id:"carpinteria", e:"🪚", n:"Carpintería", d:"Closets, cocinas, puertas y reparación de muebles.",
+    {id:"carpinteria", i:"hammer", n:"Carpintería", d:"Closets, cocinas, puertas y reparación de muebles.",
       p:["Closet","Cocina integral","Puerta de madera","Reparar mueble"], k:"carpintero carpinteria closet cocina mueble madera puerta"},
-    {id:"canceleria", e:"🚿", n:"Vidrio y aluminio", d:"Canceles de baño, ventanas, vidrios y espejos.",
+    {id:"canceleria", i:"app-window", n:"Vidrio y aluminio", d:"Canceles de baño, ventanas, vidrios y espejos.",
       p:["Cancel de baño","Ventanas","Vidrio roto","Espejo"], k:"cancel canceleria aluminio vidrio ventana espejo vidriero"},
-    {id:"techos", e:"⛱️", n:"Techos, toldos y pérgolas", d:"Techos de lámina o policarbonato, toldos y domos.",
+    {id:"techos", i:"tent", n:"Techos, toldos y pérgolas", d:"Techos de lámina o policarbonato, toldos y domos.",
       p:["Techo para cochera o patio","Toldo","Pérgola","Domo"], k:"techo toldo pergola domo policarbonato lamina sombra cochera"},
-    {id:"solar", e:"☀️", n:"Paneles y calentadores solares", d:"Ahorra en luz y gas con energía solar.",
+    {id:"solar", i:"sun", n:"Paneles y calentadores solares", d:"Ahorra en luz y gas con energía solar.",
       p:["Cotizar paneles solares","Calentador solar","Mantenimiento"], k:"panel paneles solares calentador solar ahorro luz cfe"},
   ]},
-  {grupo:"🔒 Tecnología y seguridad", servicios:[
-    {id:"camaras", e:"📹", n:"Cámaras y alarmas", d:"Instalación de cámaras, alarmas y timbres con video.",
+  {grupo:"Tecnología y seguridad", gi:"shield-check", servicios:[
+    {id:"camaras", i:"cctv", n:"Cámaras y alarmas", d:"Instalación de cámaras, alarmas y timbres con video.",
       p:["Instalar cámaras","Revisar sistema existente","Alarma","Timbre con cámara / videoportero"], k:"camaras cctv seguridad alarma videoportero timbre"},
-    {id:"internet", e:"📶", n:"Internet y WiFi", d:"Mejora la señal en toda tu casa.",
+    {id:"internet", i:"wifi", n:"Internet y WiFi", d:"Mejora la señal en toda tu casa.",
       p:["El WiFi no llega a toda la casa","Instalar repetidor o mesh","Cableado de red"], k:"internet wifi señal red repetidor modem"},
-    {id:"tv", e:"📺", n:"Instalación de TV y soportes", d:"Montaje de pantallas, ocultar cables y audio.",
+    {id:"tv", i:"tv", n:"Instalación de TV y soportes", d:"Montaje de pantallas, ocultar cables y audio.",
       p:["Montar TV en pared","Ocultar cables","Barra de sonido / audio"], k:"tv pantalla television soporte montar"},
-    {id:"porton", e:"🚗", n:"Motores para portón", d:"Instalación, reparación y controles.",
+    {id:"porton", i:"door-open", n:"Motores para portón", d:"Instalación, reparación y controles.",
       p:["Instalar motor","Reparar motor","Controles adicionales"], k:"motor porton cochera control automatico"},
   ]},
-  {grupo:"🙋 Pequeños arreglos y apoyo", servicios:[
-    {id:"todologo", e:"🧰", n:"Maestro todólogo", d:"Pequeños arreglos: colgar, armar, ajustar.",
+  {grupo:"Pequeños arreglos y apoyo", gi:"hand-helping", servicios:[
+    {id:"todologo", i:"wrench", n:"Maestro todólogo", d:"Pequeños arreglos: colgar, armar, ajustar.",
       p:["Colgar cuadros, repisas o espejos","Armar muebles","Arreglos menores varios"], k:"todologo handyman arreglos colgar armar muebles"},
-    {id:"fletes", e:"🚚", n:"Fletes y mudanzas", d:"Mudanzas, fletes y retiro de escombro o cacharros.",
+    {id:"fletes", i:"truck", n:"Fletes y mudanzas", d:"Mudanzas, fletes y retiro de escombro o cacharros.",
       p:["Mudanza","Flete de muebles","Retiro de escombro","Retiro de cacharros"], k:"flete mudanza escombro cacharros camioneta"},
   ]},
 ];
+
 const SERVICIOS_CASA = CASA.flatMap(g => g.servicios);
 
 /* ============ LÓGICA ============ */
 const $ = s => document.querySelector(s);
 const DIAS = ["domingo","lunes","martes","miércoles","jueves","viernes","sábado"];
-let filtro = "todos";
+let filtro = "todos", soloAbiertos = false;
 
+const ico = (name, extra="") => `<i data-lucide="${name}" ${extra}></i>`;
+const icons = () => window.lucide && lucide.createIcons();
 const norm = s => (s||"").toString().toLowerCase().normalize("NFD").replace(/[̀-ͯ]/g,"");
 const toMin = t => { const [h,m]=t.split(":").map(Number); return h*60+m; };
 const fmt12 = t => { let [h,m]=t.split(":").map(Number); const ap=h>=12?"p.m.":"a.m."; h=h%12||12; return `${h}${m?":"+String(m).padStart(2,"0"):""} ${ap}`; };
 const money = n => "$" + n.toLocaleString("es-MX");
+const esc = s => String(s).replace(/[&<>"]/g, c => ({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;"}[c]));
+const catOf = n => CATEGORIAS.find(c => c.id===n.categorias[0]);
 
 function estado(n){
   const now = new Date(), d = now.getDay(), mins = now.getHours()*60+now.getMinutes();
@@ -447,126 +654,26 @@ function estado(n){
   if (!n.horario) return null;
   const h = n.horario[d];
   if (h && mins>=toMin(h[0]) && mins<toMin(h[1])) return {on:true, txt:`Abierto · cierra ${fmt12(h[1])}`};
-  return {on:false, txt:"Cerrado ahora"};
+  // próxima apertura
+  for (let k=0;k<7;k++){
+    const dd=(d+k)%7, hh=n.horario[dd];
+    if (hh && (k>0 || mins<toMin(hh[0]))) return {on:false, txt:`Cerrado · abre ${k===0?"hoy":k===1?"mañana":DIAS[dd]} ${fmt12(hh[0])}`};
+  }
+  return {on:false, txt:"Cerrado"};
 }
 
+function media(n, cls="media"){
+  if (n.imagen) return `<div class="${cls}${n.logo?" logo":""}"${n.logo?` style="background:${n.logo}"`:""}><img src="${n.imagen}" alt="${esc(n.nombre)}" loading="${cls==="media"?"lazy":"eager"}" decoding="async">`;
+  return `<div class="${cls} ph">${ico(n.icon||"store")}`;
+}
+
+/* ---------- WhatsApp ---------- */
 function waLink(n, items){
   let txt = `Hola 👋 Vengo de la página de Vecinos Bonaterra.\nNegocio: ${n.nombre}`;
-  if (items.length) txt += `\nMe interesa: ${items.join(", ")}`;
-  else txt += `\nQuiero información.`;
+  txt += items.length ? `\nMe interesa: ${items.join(", ")}` : `\nQuiero información.`;
   txt += `\n(ref: ${REF}-${n.id})`;
   return `https://wa.me/${WA_PLATAFORMA}?text=${encodeURIComponent(txt)}`;
 }
-
-function renderChips(){
-  $("#chips").innerHTML = CATEGORIAS.map(c =>
-    `<button class="chip" data-id="${c.id}" aria-pressed="${c.id===filtro}">${c.label}</button>`).join("");
-}
-
-function renderBanner(){
-  const hoy = new Date().getDay(), b = $("#mercadito-banner");
-  const esHoy = hoy===3;
-  b.innerHTML = `<span class="emoji">🧺</span><div><b>${esHoy?"¡Hoy es miércoles de mercadito!":"Mercadito cada miércoles"}</b>
-    <small>Parque Lineal · pan de masa madre, pasteles, frutas y verduras, quesos, tamales</small></div>`;
-  b.onclick = () => abrir(NEGOCIOS.find(n=>n.id==="mercadito"));
-}
-
-function thumb(n, cls="thumb"){
-  if (n.imagen) return `<div class="${cls}" style="background-image:url('${n.imagen}')${n.logo?`;background-size:contain;background-color:${n.logo}`:""}">`;
-  return `<div class="${cls} emoji">${n.emoji||"🏪"}`;
-}
-
-function renderGrid(){
-  const q = norm($("#q").value.trim());
-  const lista = NEGOCIOS.filter(n => {
-    if (filtro!=="todos" && !n.categorias.includes(filtro)) return false;
-    if (!q) return true;
-    const hay = norm([n.nombre,n.descripcion,n.keywords,(n.secciones||[]).flatMap(s=>s.items.map(i=>i.n)).join(" ")].join(" "));
-    return q.split(/\s+/).every(w => hay.includes(w));
-  });
-  $("#count").textContent = `${lista.length} ${lista.length===1?"resultado":"resultados"}`;
-  $("#grid").innerHTML = lista.length ? lista.map(n => {
-    const e = estado(n);
-    const cat = CATEGORIAS.find(c=>c.id===n.categorias[0]);
-    const tags = (n.secciones||[]).flatMap(s=>s.items).slice(0,3).map(i=>`<span class="tag">${i.n}</span>`).join("");
-    return `<article class="card" data-id="${n.id}" tabindex="0">
-      ${thumb(n)}${e?`<span class="status ${e.on?"on":"off"}">● ${e.txt}</span>`:""}</div>
-      <div class="body">
-        <span class="cat">${cat?cat.label.replace(/^\S+\s/,""):""}</span>
-        <h3 class="name">${n.nombre}</h3>
-        <p class="desc">${n.descripcion}</p>
-        ${n.pendiente?`<span class="pend">⚠ ${n.pendiente}</span>`:""}
-        <div class="tags">${tags}</div>
-      </div></article>`;
-  }).join("") : `<div class="empty">No encontramos “${$("#q").value}”.<br>Escríbenos por WhatsApp y te ayudamos a encontrarlo.</div>`;
-}
-
-function abrir(n){
-  const m = $("#modal"), e = estado(n);
-  const horarioTxt = n.horario ? n.horario.map((h,i)=>`${DIAS[i]}: ${h?fmt12(h[0])+" – "+fmt12(h[1]):"cerrado"}`) : null;
-  const ordenDias = [1,2,3,4,5,6,0];
-  m.innerHTML = `
-    <div class="m-head">${thumb(n)}</div><button class="m-close" aria-label="Cerrar">✕</button></div>
-    <div class="m-body">
-      <h2>${n.nombre}</h2>
-      ${n.responsable?`<div class="note">${n.responsable}</div>`:""}
-      <p class="desc">${n.descripcion}</p>
-      <div class="info">
-        ${e?`<div>🕒 <span style="color:var(${e.on?"--open":"--closed"});font-weight:700">${e.txt}</span></div>`:""}
-        ${n.ubicacion?`<div>📍 ${n.ubicacion}</div>`:""}
-        ${n.entrega?`<div>🛵 ${n.entrega}</div>`:""}
-        ${n.pagos?`<div>💳 ${n.pagos.join(" · ")}</div>`:""}
-        ${n.instagram?`<div>📸 <a href="https://instagram.com/${n.instagram}" target="_blank" rel="noopener">@${n.instagram}</a></div>`:""}
-        ${n.pendiente?`<div class="pend">⚠ ${n.pendiente}</div>`:""}
-      </div>
-      ${horarioTxt?`<details><summary class="note">Ver horario completo</summary><div class="note" style="margin-top:6px">${ordenDias.map(i=>horarioTxt[i]).join("<br>")}</div></details>`:""}
-      <p class="note" style="margin-top:14px">Selecciona lo que te interesa y te atendemos por WhatsApp:</p>
-      ${(n.secciones||[]).map((s,si)=>`
-        <div class="sec"><h3>${s.titulo}</h3>
-        ${s.items.map((it,ii)=>`<div class="item"><label><input type="checkbox" value="${s.titulo} – ${it.n}"><span>${it.n}${it.d?`<br><small class="note">${it.d}</small>`:""}</span></label>${it.p?`<span class="price">${money(it.p)}</span>`:""}</div>`).join("")}
-        </div>`).join("")}
-      ${n.nota?`<p class="note" style="margin-top:12px">${n.nota}</p>`:""}
-    </div>
-    <div class="cta"><a class="btn-wa" id="wa-btn" target="_blank" rel="noopener">${btnTxt(n,0)}</a></div>`;
-  const btn = m.querySelector("#wa-btn");
-  const upd = () => {
-    const sel = [...m.querySelectorAll("input:checked")].map(i=>i.value.split(" – ").pop());
-    btn.href = waLink(n, sel); btn.innerHTML = btnTxt(n, sel.length);
-  };
-  m.querySelectorAll("input").forEach(i=>i.addEventListener("change",upd));
-  m.querySelector(".m-close").onclick = () => m.close();
-  m.onclick = ev => { if (ev.target===m) m.close(); };
-  upd();
-  m.showModal();
-}
-
-function btnTxt(n, k){
-  const verbo = {servicio:"Solicitar servicio", cita:"Agendar cita", pedido:"Hacer pedido"}[n.tipo] || "Escribir";
-  return `💬 ${verbo} por WhatsApp${k?` (${k})`:""}`;
-}
-
-/* ---- Mejorando la casa ---- */
-const matchServ = (s, q) => {
-  const hay = norm([s.n, s.d, s.k, s.p.join(" ")].join(" "));
-  return q.split(/\s+/).every(w => hay.includes(w));
-};
-
-function renderCasa(){
-  const q = norm($("#q").value.trim());
-  const html = CASA.map(g => {
-    const ss = q ? g.servicios.filter(s => matchServ(s,q)) : g.servicios;
-    if (!ss.length) return "";
-    return `<h2 class="grupo">${g.grupo}</h2><div class="sgrid">${ss.map(s => {
-      const np = (s.prov||[]).length;
-      return `<button class="stile" data-sid="${s.id}"><span class="ico">${s.e}</span><b>${s.n}</b><small>${s.d}</small>
-        <span class="badge ${np?"ok":"new"}">${np?`✓ ${np} proveedor${np>1?"es":""} en Bonaterra`:"Te conseguimos uno →"}</span></button>`;
-    }).join("")}</div>`;
-  }).join("");
-  $("#casa-list").innerHTML = html || `<div class="empty">No encontramos “${$("#q").value}”.<br>
-    <a class="btn-wa" style="max-width:320px;margin:14px auto 0" target="_blank" rel="noopener"
-    href="${waCasa({n:$("#q").value, id:"otro"}, [], "", "")}">💬 Pídelo por WhatsApp</a></div>`;
-}
-
 function waCasa(s, probs, urg, extra){
   let txt = `Hola 👋 Vengo de Vecinos Bonaterra · Mejorando la casa.\nServicio: ${s.n}`;
   if (probs.length) txt += `\nNecesito: ${probs.join(", ")}`;
@@ -576,31 +683,190 @@ function waCasa(s, probs, urg, extra){
   return `https://wa.me/${WA_PLATAFORMA}?text=${encodeURIComponent(txt)}`;
 }
 
+/* ---------- Home ---------- */
+function renderHome(){
+  const h = new Date().getHours();
+  $("#greet").textContent = (h<12?"Buenos días":h<19?"Buenas tardes":"Buenas noches") + ", vecino";
+  const now = new Date();
+  $("#hoy-fecha").textContent = now.toLocaleDateString("es-MX",{weekday:"long", day:"numeric", month:"long"});
+
+  const abiertos = NEGOCIOS.filter(n => { const e=estado(n); return e && e.on; }).length;
+  const d = now.getDay(), faltan = (3 - d + 7) % 7;
+  const merc = faltan===0 ? "Hoy" : faltan===1 ? "Mañana" : `En ${faltan} días`;
+  $("#bento").innerHTML = `
+    <a class="tile casa reveal" href="#casa">
+      <span class="deco"></span>
+      <span class="ico">${ico("hammer")}</span>
+      <h3>Mejorando la casa</h3>
+      <span class="sub">${SERVICIOS_CASA.length} servicios: plomería, minisplit, pintura, jardín y más</span>
+      <span class="arrow">${ico("arrow-right")}</span>
+    </a>
+    <button class="tile lime reveal" id="t-merc">
+      <span class="ico">${ico("shopping-basket")}</span>
+      <span class="big">${merc}</span>
+      <span class="lbl">Mercadito del Parque Lineal</span>
+      <span class="sub">Pan de masa madre, pasteles, tamales…</span>
+    </button>
+    <button class="tile dark reveal" id="t-open">
+      <span class="ico">${ico("clock")}</span>
+      <span class="big">${abiertos}</span>
+      <span class="lbl">Abiertos ahora</span>
+      <span class="sub">Toca para verlos</span>
+    </button>`;
+  $("#t-merc").onclick = () => abrir(NEGOCIOS.find(n=>n.id==="mercadito"));
+  $("#t-open").onclick = () => { soloAbiertos = true; $("#solo-abiertos").checked = true; filtro="todos"; renderChips(); renderGrid(); $("#directorio").scrollIntoView(); };
+
+  const items = [...SERVICIOS_CASA.map(s=>s.n), ...NEGOCIOS.map(n=>n.nombre.split(" · ")[0])];
+  const uniq = [...new Set(items)].sort(()=>Math.random()-.5).slice(0,18);
+  $("#marquee").innerHTML = [...uniq, ...uniq].map(t=>`<span>${esc(t)}</span>`).join("");
+
+  $("#quick").innerHTML = QUICK.map(q=>`<button type="button">${q}</button>`).join("");
+}
+
+function renderChips(){
+  $("#chips").innerHTML = CATEGORIAS.map(c =>
+    `<button class="chip" data-id="${c.id}" aria-pressed="${c.id===filtro}">${ico(c.i)}${c.label}</button>`).join("");
+  icons();
+}
+
+function matchNeg(n, q){
+  const hay = norm([n.nombre,n.descripcion,n.keywords,(n.secciones||[]).flatMap(s=>s.items.map(i=>i.n)).join(" ")].join(" "));
+  return q.split(/\s+/).every(w => hay.includes(w));
+}
+function renderGrid(){
+  const q = norm($("#q").value.trim());
+  const lista = NEGOCIOS.filter(n => {
+    if (filtro!=="todos" && !n.categorias.includes(filtro)) return false;
+    if (soloAbiertos){ const e=estado(n); if (!e || !e.on) return false; }
+    return !q || matchNeg(n,q);
+  });
+  $("#count").textContent = `${lista.length} ${lista.length===1?"lugar":"lugares"}`;
+  $("#grid").innerHTML = lista.length ? lista.map(n => {
+    const e = estado(n), c = catOf(n);
+    const tags = (n.secciones||[]).flatMap(s=>s.items).slice(0,3).map(i=>`<span class="tag">${esc(i.n)}</span>`).join("");
+    return `<button class="card reveal" data-id="${n.id}">
+      ${media(n)}${e?`<span class="status ${e.on?"on":""}"><i></i>${e.txt}</span>`:""}</div>
+      <div class="cbody">
+        <span class="kicker">${c?ico(c.i):""}${c?c.label:""}</span>
+        <h3>${esc(n.nombre)}</h3>
+        <p>${esc(n.descripcion)}</p>
+        ${n.pendiente?`<span class="pend">${ico("info")}${esc(n.pendiente)}</span>`:""}
+        <div class="tags">${tags}</div>
+      </div></button>`;
+  }).join("") : `<div class="empty"><b>No encontramos “${esc($("#q").value || "eso")}”</b>
+      Escríbenos y te ayudamos a encontrarlo.<br><br>
+      <a class="btn-wa" style="max-width:300px;margin:0 auto" target="_blank" rel="noopener"
+      href="https://wa.me/${WA_PLATAFORMA}?text=${encodeURIComponent("Hola 👋 Vengo de Vecinos Bonaterra. Busco: "+$("#q").value+" (ref: "+REF+"-busqueda)")}">${ico("message-circle")}Pedir por WhatsApp</a></div>`;
+  icons();
+}
+
+function renderHint(){
+  const q = norm($("#q").value.trim()), h = $("#casa-hint");
+  const ss = q.length>2 ? SERVICIOS_CASA.filter(s=>matchServ(s,q)).slice(0,3) : [];
+  h.hidden = !ss.length;
+  h.innerHTML = ss.length ? `${ico("hammer")}<span>En <b>Mejorando la casa</b>:</span> ${ss.map(s=>`<a href="#casa/${s.id}">${esc(s.n)} →</a>`).join(" ")}` : "";
+  icons();
+}
+
+/* ---------- Ficha de negocio ---------- */
+function abrir(n){
+  const m = $("#modal"), e = estado(n), d = new Date().getDay();
+  const facts = [
+    e ? `<span class="fact ${e.on?"on":"off"}">${ico("clock")}${e.txt}</span>` : "",
+    n.ubicacion ? `<span class="fact">${ico("map-pin")}${esc(n.ubicacion)}</span>` : "",
+    n.entrega ? `<span class="fact">${ico("bike")}${esc(n.entrega)}</span>` : "",
+    n.pagos ? `<span class="fact">${ico("credit-card")}${n.pagos.join(" · ")}</span>` : "",
+    n.instagram ? `<span class="fact"><a href="https://instagram.com/${n.instagram}" target="_blank" rel="noopener">${ico("at-sign")}${n.instagram}</a></span>` : "",
+  ].join("");
+  const hours = n.horario ? `<details class="hours"><summary>Ver horario</summary><table>${[1,2,3,4,5,6,0].map(i=>
+      `<tr class="${i===d?"today":""}"><td style="text-transform:capitalize">${DIAS[i]}</td><td>${n.horario[i]?fmt12(n.horario[i][0])+" – "+fmt12(n.horario[i][1]):"Cerrado"}</td></tr>`).join("")}</table></details>` : "";
+  let k = 0;
+  m.innerHTML = `
+    <div class="grab" aria-hidden="true"></div>
+    <div class="sheet">
+      <div style="position:relative">${media(n,"sheet-media")}</div><button class="x" aria-label="Cerrar">${ico("x")}</button></div>
+      <div class="sbody">
+        <span class="kicker">${catOf(n)?ico(catOf(n).i)+catOf(n).label:""}</span>
+        <h2>${esc(n.nombre)}</h2>
+        ${n.responsable?`<div class="who">${esc(n.responsable)}</div>`:""}
+        <div class="facts">${facts}</div>
+        ${hours}
+        ${n.pendiente?`<p class="pend">${ico("info")}${esc(n.pendiente)}</p>`:""}
+        <p style="color:var(--muted);margin:10px 0 0">${esc(n.descripcion)}</p>
+        ${(n.secciones||[]).map(s=>`
+          <div class="block"><h3>${esc(s.titulo)}</h3>
+          ${s.items.map(it=>`<label class="opt"><input type="checkbox" value="${esc(it.n)}">
+            <span class="t">${esc(it.n)}${it.d?`<small>${esc(it.d)}</small>`:""}</span>${it.p?`<span class="p">${money(it.p)}</span>`:""}</label>`).join("")}
+          </div>`).join("")}
+        ${n.nota?`<p class="note">${esc(n.nota)}</p>`:""}
+      </div>
+    </div>
+    <div class="cta"><a class="btn-wa" id="wa-btn" target="_blank" rel="noopener"></a></div>`;
+  const btn = m.querySelector("#wa-btn");
+  const verbo = {servicio:"Solicitar servicio", cita:"Agendar cita", pedido:"Hacer pedido"}[n.tipo] || "Escribir";
+  const upd = () => {
+    const sel = [...m.querySelectorAll("input:checked")].map(i=>i.value);
+    btn.href = waLink(n, sel);
+    btn.innerHTML = `${ico("message-circle")}${verbo} por WhatsApp${sel.length?` <span class="cnt">${sel.length}</span>`:""}`;
+    icons();
+  };
+  m.querySelectorAll("input").forEach(i=>i.addEventListener("change",upd));
+  wireSheet(m); upd(); m.showModal();
+}
+
+/* ---------- Mejorando la casa ---------- */
+const matchServ = (s, q) => {
+  const hay = norm([s.n, s.d, s.k, s.p.join(" ")].join(" "));
+  return q.split(/\s+/).every(w => hay.includes(w));
+};
+function renderCasa(){
+  const q = norm($("#qc").value.trim());
+  $("#grupos").innerHTML = CASA.map((g,i)=>`<a class="chip" href="#casa" data-g="${i}">${ico(g.gi)}${g.grupo}</a>`).join("");
+  const html = CASA.map((g,gi) => {
+    const ss = q ? g.servicios.filter(s => matchServ(s,q)) : g.servicios;
+    if (!ss.length) return "";
+    return `<h2 class="grupo" id="g-${gi}"><span class="gi">${ico(g.gi)}</span>${g.grupo}</h2><div class="sgrid">${ss.map(s => {
+      const np = (s.prov||[]).length;
+      return `<button class="stile reveal ${np?"has":""}" data-sid="${s.id}"><span class="si">${ico(s.i)}</span><b>${esc(s.n)}</b><small>${esc(s.d)}</small>
+        <span class="badge ${np?"ok":"new"}">${np?ico("badge-check")+`${np} proveedor${np>1?"es":""} aquí`:ico("sparkles")+"Te conseguimos uno"}</span></button>`;
+    }).join("")}</div>`;
+  }).join("");
+  $("#casa-list").innerHTML = html || `<div class="empty" style="margin-top:20px"><b>No lo vemos en la lista</b>
+    Pero seguro te lo conseguimos.<br><br>
+    <a class="btn-wa" style="max-width:300px;margin:0 auto" target="_blank" rel="noopener"
+    href="${waCasa({n:$("#qc").value, id:"otro"}, [], "", "")}">${ico("message-circle")}Pídelo por WhatsApp</a></div>`;
+  icons();
+}
+
 function abrirServicio(s){
   const m = $("#modal");
   const provs = (s.prov||[]).map(id => NEGOCIOS.find(n=>n.id===id)).filter(Boolean);
   m.innerHTML = `
-    <div class="m-head"><div class="thumb emoji" style="aspect-ratio:16/6">${s.e}</div><button class="m-close" aria-label="Cerrar">✕</button></div>
-    <div class="m-body">
-      <h2>${s.n}</h2>
-      <p class="desc">${s.d}</p>
-      <div class="sec"><h3>¿Qué necesitas?</h3>
-        ${s.p.map(x=>`<div class="item"><label><input type="checkbox" name="p" value="${x}">${x}</label></div>`).join("")}
-      </div>
-      <div class="sec"><h3>¿Qué tan urgente es?</h3>
-        <div class="urg">
-          <label><input type="radio" name="u" value="Urgente (hoy)">🔴 Hoy</label>
-          <label><input type="radio" name="u" value="Esta semana" checked>🟡 Esta semana</label>
-          <label><input type="radio" name="u" value="Sin prisa / cotizar">🟢 Sin prisa</label>
+    <div class="grab" aria-hidden="true"></div>
+    <div class="sheet">
+      <div style="position:relative"><div class="sheet-media ph">${ico(s.i)}</div><button class="x" aria-label="Cerrar">${ico("x")}</button></div>
+      <div class="sbody">
+        <span class="kicker">${ico("hammer")}Mejorando la casa</span>
+        <h2>${esc(s.n)}</h2>
+        <p style="color:var(--muted);margin:8px 0 0">${esc(s.d)}</p>
+        <div class="block"><h3><span class="n">1</span>¿Qué necesitas?</h3>
+          ${s.p.map(x=>`<label class="opt"><input type="checkbox" name="p" value="${esc(x)}"><span class="t">${esc(x)}</span></label>`).join("")}
         </div>
-      </div>
-      <div class="sec"><h3>Cuéntanos más (opcional)</h3>
-        <textarea id="extra" placeholder="Ej: la fuga está debajo del lavabo de la cocina"></textarea>
-      </div>
-      <div class="sec"><h3>Proveedores en Bonaterra</h3>
-        ${provs.length ? provs.map(n=>`<button class="prov" data-nid="${n.id}"><span class="av" style="background-image:url('${n.imagen}')"></span>
-          <span><b>${n.nombre}</b><br><small>Ver perfil ›</small></span></button>`).join("")
-        : `<div class="callout">Todavía no tenemos un proveedor fijo para este servicio, pero mándanos tu solicitud: <b>te conseguimos a alguien de confianza</b> y te confirmamos por WhatsApp.</div>`}
+        <div class="block"><h3><span class="n">2</span>¿Qué tan urgente?</h3>
+          <div class="urg">
+            <label><input type="radio" name="u" value="Urgente (hoy)">Hoy<small>Urgente</small></label>
+            <label><input type="radio" name="u" value="Esta semana" checked>Esta semana<small>Pronto</small></label>
+            <label><input type="radio" name="u" value="Sin prisa / cotizar">Sin prisa<small>Cotizar</small></label>
+          </div>
+        </div>
+        <div class="block"><h3><span class="n">3</span>Cuéntanos más <span style="font-weight:500;color:var(--muted);font-size:.85rem;font-family:'Instrument Sans'">(opcional)</span></h3>
+          <label class="sr" for="extra">Detalles</label>
+          <textarea id="extra" placeholder="Ej: la fuga está debajo del lavabo de la cocina"></textarea>
+        </div>
+        <div class="block"><h3>Quién te atiende</h3>
+          ${provs.length ? provs.map(n=>`<button class="prov" data-nid="${n.id}"><img src="${n.imagen}" alt=""><span><b>${esc(n.nombre)}</b><small>Proveedor en Bonaterra</small></span>${ico("chevron-right")}</button>`).join("")
+          : `<div class="callout">${ico("sparkles")}<span>Aún no tenemos un proveedor fijo para este servicio, pero <b>te conseguimos a alguien de confianza</b> y te confirmamos por WhatsApp.</span></div>`}
+        </div>
       </div>
     </div>
     <div class="cta"><a class="btn-wa" id="wa-btn" target="_blank" rel="noopener"></a></div>`;
@@ -609,58 +875,94 @@ function abrirServicio(s){
     const probs = [...m.querySelectorAll("input[name=p]:checked")].map(i=>i.value);
     const urg = (m.querySelector("input[name=u]:checked")||{}).value || "";
     btn.href = waCasa(s, probs, urg, m.querySelector("#extra").value.trim());
-    btn.textContent = `💬 Solicitar ${s.n.toLowerCase()} por WhatsApp`;
+    btn.innerHTML = `${ico("message-circle")}Solicitar por WhatsApp${probs.length?` <span class="cnt">${probs.length}</span>`:""}`;
+    icons();
   };
   m.querySelectorAll("input,textarea").forEach(i=>i.addEventListener("input",upd));
-  m.querySelectorAll(".prov").forEach(b=>b.onclick=()=>{ m.close(); abrir(NEGOCIOS.find(n=>n.id===b.dataset.nid)); });
-  m.querySelector(".m-close").onclick = () => m.close();
+  m.querySelectorAll(".prov").forEach(b=>b.onclick=()=>{ m.close(); setTimeout(()=>abrir(NEGOCIOS.find(n=>n.id===b.dataset.nid)),250); });
+  wireSheet(m); upd(); m.showModal();
+}
+
+/* Cerrar: botón, fondo, Esc y deslizar hacia abajo */
+function wireSheet(m){
+  m.querySelector(".x").onclick = () => m.close();
   m.onclick = ev => { if (ev.target===m) m.close(); };
-  upd();
-  m.showModal();
+  const sheet = m.querySelector(".sheet");
+  let y0 = null;
+  m.ontouchstart = e => { y0 = (sheet.scrollTop<=0) ? e.touches[0].clientY : null; };
+  m.ontouchmove  = e => { if (y0===null) return; const dy = e.touches[0].clientY - y0; if (dy>0){ m.style.transition="none"; m.style.translate=`0 ${dy}px`; } };
+  m.ontouchend   = e => { if (y0===null) return; const dy = e.changedTouches[0].clientY - y0; m.style.transition=""; m.style.translate=""; if (dy>110) m.close(); y0=null; };
+  icons();
 }
 
-/* En el directorio, si la búsqueda coincide con servicios del hogar, sugerirlos */
-function renderHint(){
-  const q = norm($("#q").value.trim()), h = $("#casa-hint");
-  const ss = q.length>2 ? SERVICIOS_CASA.filter(s=>matchServ(s,q)).slice(0,3) : [];
-  h.hidden = !ss.length;
-  h.innerHTML = ss.length ? `🛠️ En <b>Mejorando la casa</b>: ${ss.map(s=>`<a href="#casa/${s.id}">${s.e} ${s.n}</a>`).join(" · ")}` : "";
-}
-
-/* ---- Navegación ---- */
+/* ---------- Navegación ---------- */
 function route(){
   const [view, sid] = location.hash.replace("#","").split("/");
   const casa = view==="casa";
-  $("#view-dir").hidden = casa; $("#view-casa").hidden = !casa;
-  document.querySelectorAll(".tab").forEach(t => t.setAttribute("aria-current", (t.dataset.view==="casa")===casa ? "page" : "false"));
-  $("#q").placeholder = casa ? "¿Qué necesitas arreglar? Ej: fuga, minisplit, alacranes…" : "¿Qué necesitas? Ej: lavado de auto, uñas, café, tamales…";
-  $("#subtitulo").textContent = casa
-    ? "Todo lo que tu casa necesita, en un solo lugar. Elige el servicio, cuéntanos qué pasa y te conectamos con alguien de confianza."
-    : "Servicios, comida y negocios de tu fraccionamiento. Encuentra lo que necesitas y pídelo por WhatsApp en un minuto.";
-  if (casa) renderCasa(); else { renderGrid(); renderHint(); }
-  if (sid) { const s = SERVICIOS_CASA.find(x=>x.id===sid); if (s) abrirServicio(s); }
+  const go = () => {
+    $("#view-dir").hidden = casa; $("#view-casa").hidden = !casa;
+    document.querySelectorAll("[data-view]").forEach(t => {
+      if (t.dataset.view==="none") return;
+      t.setAttribute("aria-current", (t.dataset.view==="casa")===casa ? "page" : "false");
+    });
+    if (casa) renderCasa(); else { renderGrid(); renderHint(); }
+  };
+  if (view==="directorio") return;
+  if (document.startViewTransition && !matchMedia("(prefers-reduced-motion: reduce)").matches) document.startViewTransition(go); else go();
+  if (sid) { const s = SERVICIOS_CASA.find(x=>x.id===sid); if (s) setTimeout(()=>abrirServicio(s), 60); }
 }
-window.addEventListener("hashchange", () => { $("#q").value=""; route(); window.scrollTo(0,0); });
-$("#casa-list").addEventListener("click", e => {
-  const b = e.target.closest(".stile"); if (b) abrirServicio(SERVICIOS_CASA.find(s=>s.id===b.dataset.sid));
+let lastView = null;
+window.addEventListener("hashchange", () => {
+  const v = location.hash.startsWith("#casa") ? "casa" : location.hash==="#directorio" ? "anchor" : "dir";
+  if (v==="anchor") return;
+  if (v!==lastView){ window.scrollTo({top:0}); lastView=v; }
+  route();
 });
 
-/* eventos */
+/* rotating placeholder */
+const PH = ["¿Qué necesitas hoy?","Prueba: “fuga de agua”","Prueba: “hamburguesa”","Prueba: “uñas”","Prueba: “minisplit”","Prueba: “tamales”"];
+let phi = 0;
+function rotatePH(){ const q=$("#q"); if (document.activeElement!==q && !q.value){ q.placeholder = PH[phi++ % PH.length]; } }
+
+/* ---------- eventos ---------- */
 $("#chips").addEventListener("click", e => {
   const b = e.target.closest(".chip"); if (!b) return;
   filtro = b.dataset.id; renderChips(); renderGrid();
 });
-$("#q").addEventListener("input", () => location.hash.startsWith("#casa") ? renderCasa() : (renderGrid(), renderHint()));
+$("#solo-abiertos").addEventListener("change", e => { soloAbiertos = e.target.checked; renderGrid(); });
+$("#q").addEventListener("input", () => { renderGrid(); renderHint(); });
+$("#q").addEventListener("keydown", e => { if (e.key==="Enter"){ $("#directorio").scrollIntoView(); e.target.blur(); } });
+$("#qc").addEventListener("input", renderCasa);
+$("#quick").addEventListener("click", e => {
+  const b = e.target.closest("button"); if (!b) return;
+  $("#q").value = b.textContent; renderGrid(); renderHint();
+  const hint = !$("#casa-hint").hidden;
+  (hint && !NEGOCIOS.some(n=>matchNeg(n,norm(b.textContent))) ? $("#casa-hint") : $("#directorio")).scrollIntoView({block:"center"});
+});
 $("#grid").addEventListener("click", e => {
   const c = e.target.closest(".card"); if (c) abrir(NEGOCIOS.find(n=>n.id===c.dataset.id));
 });
-$("#grid").addEventListener("keydown", e => {
-  const c = e.target.closest(".card"); if (c && e.key==="Enter") abrir(NEGOCIOS.find(n=>n.id===c.dataset.id));
+$("#casa-list").addEventListener("click", e => {
+  const b = e.target.closest(".stile"); if (b) abrirServicio(SERVICIOS_CASA.find(s=>s.id===b.dataset.sid));
 });
+$("#grupos").addEventListener("click", e => {
+  const a = e.target.closest("[data-g]"); if (!a) return; e.preventDefault();
+  $("#qc").value=""; renderCasa(); document.getElementById("g-"+a.dataset.g).scrollIntoView({behavior:"smooth"});
+});
+$("#nav-comida").addEventListener("click", e => {
+  if (location.hash.startsWith("#casa")) { e.preventDefault(); location.hash=""; }
+  filtro="comida"; renderChips(); renderGrid();
+  setTimeout(()=>$("#directorio").scrollIntoView({behavior:"smooth"}), 80);
+});
+document.querySelectorAll(".js-alta").forEach(a => { a.target="_blank"; a.rel="noopener";
+  a.href = `https://wa.me/${WA_PLATAFORMA}?text=${encodeURIComponent("Hola, tengo un negocio en Bonaterra y quiero aparecer en el directorio. (ref: alta-proveedor)")}`; });
 $("#fab").href = `https://wa.me/${WA_PLATAFORMA}?text=${encodeURIComponent("Hola 👋 Vengo de Vecinos Bonaterra, busco un servicio. (ref: "+REF+"-general)")}`;
-$("#alta").href = `https://wa.me/${WA_PLATAFORMA}?text=${encodeURIComponent("Hola, tengo un negocio en Bonaterra y quiero aparecer en el directorio. (ref: alta-proveedor)")}`;
+addEventListener("scroll", () => $("#top").classList.toggle("scrolled", scrollY>8), {passive:true});
 
-renderChips(); renderBanner(); route();
+renderHome(); renderChips(); rotatePH(); setInterval(rotatePH, 2600);
+lastView = location.hash.startsWith("#casa") ? "casa" : "dir";
+route();
+addEventListener("load", icons);
 </script>
 </body>
 </html>
