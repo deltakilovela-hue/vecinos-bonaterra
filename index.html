@@ -78,6 +78,36 @@ dialog::backdrop{background:rgba(10,20,15,.55)}
 .btn-wa{display:flex;align-items:center;justify-content:center;gap:10px;width:100%;padding:14px;border:none;border-radius:12px;background:var(--wa);color:#063;font:inherit;font-weight:800;font-size:1rem;cursor:pointer;text-decoration:none}
 footer{border-top:1px solid var(--line);padding:22px 0 40px;color:var(--muted);font-size:.85rem}
 footer a{color:var(--brand)}
+/* navegación */
+.tabs{display:flex;gap:6px;margin-top:18px}
+.tab{color:#fff;text-decoration:none;font-weight:700;font-size:.92rem;padding:8px 14px;border-radius:999px;background:rgba(255,255,255,.14)}
+.tab[aria-current="page"]{background:#fff;color:var(--brand)}
+[hidden]{display:none!important}
+/* mejorando la casa */
+.promo{margin:16px 0 4px;display:flex;gap:14px;align-items:center;padding:16px;border-radius:14px;text-decoration:none;color:#fff;background:linear-gradient(135deg,#d9622b,#f0973a);box-shadow:var(--shadow)}
+.promo .emoji{font-size:2.2rem}
+.promo b{display:block;font-size:1.08rem}
+.promo small{opacity:.92}
+.promo .go{margin-left:auto;font-size:1.4rem}
+.hint{margin:10px 0 0;font-size:.9rem;color:var(--muted)}
+.hint a{color:var(--brand);font-weight:700}
+.grupo{margin:22px 0 8px;font-size:1.05rem;font-weight:800}
+.sgrid{display:grid;grid-template-columns:repeat(auto-fill,minmax(160px,1fr));gap:10px}
+.stile{background:var(--card);border:1px solid var(--line);border-radius:14px;padding:14px 12px;text-align:left;font:inherit;color:var(--ink);cursor:pointer;display:flex;flex-direction:column;gap:4px;box-shadow:var(--shadow);transition:transform .12s}
+.stile:hover{transform:translateY(-2px);border-color:var(--brand)}
+.stile .ico{font-size:1.7rem}
+.stile b{font-size:.95rem;line-height:1.25}
+.stile small{color:var(--muted);font-size:.78rem;line-height:1.3}
+.badge{margin-top:auto;padding-top:6px;font-size:.72rem;font-weight:700}
+.badge.ok{color:var(--open)}.badge.new{color:#d9622b}
+.urg{display:flex;gap:6px;flex-wrap:wrap}
+.urg label{flex:1 1 auto;border:1px solid var(--line);border-radius:10px;padding:9px 10px;font-size:.88rem;cursor:pointer;display:flex;gap:6px;align-items:center}
+.urg input{accent-color:var(--brand)}
+.prov{display:flex;align-items:center;gap:10px;padding:10px;border:1px solid var(--line);border-radius:10px;margin-bottom:6px;width:100%;background:none;color:var(--ink);font:inherit;text-align:left;cursor:pointer}
+.prov .av{width:42px;height:42px;border-radius:10px;background:#ddd center/cover no-repeat;flex:0 0 auto}
+.prov small{color:var(--muted)}
+.callout{background:var(--bg);border:1px dashed var(--line);border-radius:10px;padding:10px 12px;font-size:.88rem;color:var(--muted)}
+textarea{width:100%;font:inherit;font-size:.9rem;padding:10px;border-radius:10px;border:1px solid var(--line);background:var(--card);color:var(--ink);resize:vertical;min-height:60px}
 .fab{position:fixed;right:16px;bottom:16px;width:58px;height:58px;border-radius:50%;background:var(--wa);display:grid;place-items:center;box-shadow:0 6px 18px rgba(0,0,0,.25);z-index:5}
 </style>
 </head>
@@ -86,7 +116,11 @@ footer a{color:var(--brand)}
 <header>
   <div class="wrap">
     <h1>Vecinos Bonaterra</h1>
-    <p>Servicios, comida y negocios de tu fraccionamiento. Encuentra lo que necesitas y pídelo por WhatsApp en un minuto.</p>
+    <p id="subtitulo">Servicios, comida y negocios de tu fraccionamiento. Encuentra lo que necesitas y pídelo por WhatsApp en un minuto.</p>
+    <nav class="tabs">
+      <a class="tab" href="#" data-view="dir">Directorio</a>
+      <a class="tab" href="#casa" data-view="casa">🛠️ Mejorando la casa</a>
+    </nav>
   </div>
 </header>
 
@@ -96,12 +130,24 @@ footer a{color:var(--brand)}
     <input id="q" type="search" placeholder="¿Qué necesitas? Ej: lavado de auto, uñas, café, tamales…" autocomplete="off">
   </div>
 
-  <div class="chips" id="chips" role="toolbar" aria-label="Categorías"></div>
+  <div id="view-dir">
+    <p class="hint" id="casa-hint" hidden></p>
+    <div class="chips" id="chips" role="toolbar" aria-label="Categorías"></div>
 
-  <div class="banner" id="mercadito-banner"></div>
+    <a class="promo" href="#casa">
+      <span class="emoji">🛠️</span>
+      <div><b>Mejorando la casa</b><small>Plomería, electricidad, minisplit, pintura, jardín y todo lo que tu casa necesita</small></div>
+      <span class="go">›</span>
+    </a>
+    <div class="banner" id="mercadito-banner"></div>
 
-  <div class="count" id="count"></div>
-  <section class="grid" id="grid"></section>
+    <div class="count" id="count"></div>
+    <section class="grid" id="grid"></section>
+  </div>
+
+  <div id="view-casa" hidden>
+    <div id="casa-list" style="padding-bottom:40px"></div>
+  </div>
 </main>
 
 <footer>
@@ -120,7 +166,7 @@ footer a{color:var(--brand)}
 <script>
 /* ============ CONFIGURACIÓN ============ */
 // Número de WhatsApp de la PLATAFORMA (lo atiende la IA en GHL). Formato: 52 + 10 dígitos.
-const WA_PLATAFORMA = "520000000000"; // TODO: reemplazar
+const WA_PLATAFORMA = "525663864984"; // Delta Kilo (+52 1 56 6386 4984)
 const REF = "web";
 
 /* Horario: índice 0=domingo … 6=sábado. Cada día: ["HH:MM","HH:MM"] o null (cerrado). */
@@ -139,21 +185,34 @@ const CATEGORIAS = [
 
 const NEGOCIOS = [
   {
-    id:"autoservicio-martinez",
-    nombre:"Autoservicio Martínez",
+    id:"martinez-auto",
+    nombre:"Autoservicio Martínez · Tu auto",
     responsable:"José Juan Martínez Velarde",
-    categorias:["auto","hogar"],
-    descripcion:"Lavado y detallado de autos, y servicios de mantenimiento para tu casa. Atiende a domicilio en Bonaterra.",
-    imagen:"img/martinez.webp",
+    categorias:["auto"],
+    descripcion:"Lavado y detallado de autos a domicilio en Bonaterra.",
+    imagen:"img/martinez-auto.jpg",
     tipo:"servicio",
     secciones:[
-      {titulo:"Para tu auto", items:[
+      {titulo:"Servicios para tu auto", items:[
         {n:"Lavado de carros"},{n:"Lavado de interiores"},{n:"Pulido y encerado"}]},
-      {titulo:"Para tu hogar", items:[
+    ],
+    nota:"Precio según cotización (tamaño del auto y servicio).",
+    keywords:"carro coche auto camioneta lavado detallado interiores pulido encerado",
+  },
+  {
+    id:"martinez-hogar",
+    nombre:"Autoservicio Martínez · Tu hogar",
+    responsable:"José Juan Martínez Velarde",
+    categorias:["hogar"],
+    descripcion:"Mantenimiento para tu casa: lavado de salas y tinacos, pintura e impermeabilización.",
+    imagen:"img/martinez-hogar.jpg", logo:"#fdf6ee",
+    tipo:"servicio",
+    secciones:[
+      {titulo:"Servicios para tu hogar", items:[
         {n:"Lavado de salas y sillas"},{n:"Lavado de tinacos y aljibes"},{n:"Pintura de casa"},{n:"Impermeabilización"}]},
     ],
     nota:"Precio según cotización.",
-    keywords:"carro coche lavado detallado tinaco aljibe pintor pintura impermeabilizar sala sillon limpieza",
+    keywords:"tinaco aljibe cisterna pintor pintura impermeabilizar impermeabilizacion goteras sala sillon sillas limpieza",
   },
   {
     id:"beauty-nini",
@@ -291,6 +350,87 @@ const NEGOCIOS = [
   },
 ];
 
+/* ============ MEJORANDO LA CASA ============
+   Catálogo de servicios del hogar. "prov" = ids de NEGOCIOS que lo ofrecen.
+   Si no hay proveedor, la solicitud igual llega por WhatsApp y la plataforma consigue uno. */
+const CASA = [
+  {grupo:"🚨 Reparaciones y urgencias", servicios:[
+    {id:"plomeria", e:"🚰", n:"Plomería", d:"Fugas, WC, regaderas, llaves y tuberías.",
+      p:["Fuga de agua","El WC no funciona o tira agua","Llave o regadera gotea","Instalar o cambiar muebles de baño","No llega agua / bomba o tinaco no llena","Cambio de tubería"], k:"plomero fontanero fuga agua baño wc taza regadera lavabo tuberia"},
+    {id:"electricidad", e:"⚡", n:"Electricista", d:"Apagones, contactos, lámparas y ventiladores.",
+      p:["Se bota la pastilla / apagones","Contacto o apagador no sirve","Instalar lámpara o ventilador","Olor a quemado / cortocircuito","Ampliar o revisar instalación","Cambio de centro de carga"], k:"electricista luz electrico contacto apagador pastilla lampara ventilador corto"},
+    {id:"cerrajeria", e:"🔑", n:"Cerrajería", d:"Aperturas, cambio de chapas y copias.",
+      p:["Me quedé afuera","Cambiar chapa o cilindro","Chapa de seguridad","Abrir caja fuerte o mueble"], k:"cerrajero llave chapa puerta abrir"},
+    {id:"desazolve", e:"🕳️", n:"Desazolve y drenaje", d:"Drenajes tapados, registros y malos olores.",
+      p:["Drenaje o coladera tapada","Registro desbordado","Malos olores","Limpieza preventiva de registros"], k:"desazolve drenaje tapado coladera registro olor caño"},
+    {id:"gas", e:"🔥", n:"Gas y calentadores", d:"Calentadores, boilers, fugas e instalaciones de gas.",
+      p:["Huele a gas","El calentador no enciende","Instalar calentador / boiler","Cambio de mangueras o regulador"], k:"gas boiler calentador fuga estufa regulador agua caliente"},
+    {id:"electrodomesticos", e:"🧺", n:"Reparación de electrodomésticos", d:"Lavadoras, refrigeradores, estufas y más.",
+      p:["Lavadora","Secadora","Refrigerador","Estufa u horno","Microondas","Otro aparato"], k:"lavadora refri refrigerador estufa secadora reparacion tecnico linea blanca"},
+  ]},
+  {grupo:"❄️ Clima y confort", servicios:[
+    {id:"minisplit", e:"❄️", n:"Aire acondicionado / minisplit", d:"Limpieza, mantenimiento, instalación y recarga de gas.",
+      p:["Limpieza / mantenimiento","No enfría","Gotea agua","Instalar equipo nuevo","Recarga de gas","Hace ruido"], k:"minisplit clima aire acondicionado mantenimiento enfria"},
+    {id:"mosquiteros", e:"🦟", n:"Mosquiteros", d:"Mosquiteros nuevos y cambio de malla.",
+      p:["Mosquiteros nuevos","Cambiar malla rota","Mosquitero para puerta"], k:"mosquitero malla moscos zancudos ventana"},
+    {id:"persianas", e:"🌤️", n:"Cortinas y persianas", d:"Instalación y reparación de persianas, cortinas y cortineros.",
+      p:["Instalar persianas","Cortinas o cortineros","Reparar persiana"], k:"persiana cortina cortinero blackout"},
+  ]},
+  {grupo:"🧰 Mantenimiento", servicios:[
+    {id:"pintura", e:"🎨", n:"Pintura", d:"Interiores, fachadas, bardas y herrería.", prov:["martinez-hogar"],
+      p:["Interiores","Fachada","Barda","Rejas / herrería","Manchas de humedad"], k:"pintor pintura pintar fachada barda pared"},
+    {id:"impermeabilizacion", e:"🏠", n:"Impermeabilización", d:"Goteras, filtraciones y mantenimiento antes de lluvias.", prov:["martinez-hogar"],
+      p:["Tengo goteras o filtraciones","Mantenimiento preventivo","Losa nueva"], k:"impermeabilizar impermeabilizante gotera techo losa humedad lluvia"},
+    {id:"tinacos", e:"💧", n:"Lavado de tinacos y aljibes", d:"Limpieza y desinfección del agua de tu casa.", prov:["martinez-hogar"],
+      p:["Lavar tinaco","Lavar aljibe / cisterna","Ambos"], k:"tinaco aljibe cisterna lavado agua limpieza"},
+    {id:"fumigacion", e:"🐜", n:"Fumigación y plagas", d:"Alacranes, cucarachas, hormigas, termitas y más.",
+      p:["Alacranes","Cucarachas","Hormigas","Termitas","Mosquitos","Ratones"], k:"fumigar fumigacion plaga alacran cucaracha hormiga termita comejen raton"},
+    {id:"jardineria", e:"🌿", n:"Jardinería", d:"Corte de pasto, poda, riego y diseño de jardín.",
+      p:["Corte de pasto","Poda de árboles o plantas","Sistema de riego","Diseño o arreglo de jardín","Retiro de ramas"], k:"jardinero jardin pasto poda arbol riego plantas"},
+  ]},
+  {grupo:"🧽 Limpieza", servicios:[
+    {id:"limpieza-hogar", e:"🧹", n:"Limpieza del hogar", d:"Limpieza general, profunda o después de obra.",
+      p:["Limpieza general","Limpieza profunda","Después de obra o mudanza","Planchado","Vidrios y ventanas"], k:"limpieza aseo señora muchacha limpiar casa planchar"},
+    {id:"salas", e:"🛋️", n:"Lavado de salas, colchones y alfombras", d:"Lavado de muebles tapizados a domicilio.", prov:["martinez-hogar"],
+      p:["Sala","Sillas","Colchón","Alfombra o tapete"], k:"sala sillon sofa sillas colchon alfombra tapete lavado vapor"},
+  ]},
+  {grupo:"🏗️ Mejoras y remodelación", servicios:[
+    {id:"albanileria", e:"🧱", n:"Albañilería", d:"Ampliaciones, bardas, grietas y firmes.",
+      p:["Ampliación / cuarto extra","Barda","Reparar grietas","Firme, banqueta o cochera"], k:"albañil albañileria construccion ampliacion barda grieta cemento"},
+    {id:"pisos", e:"🔲", n:"Pisos y azulejo", d:"Instalación y cambio de piso y azulejo.",
+      p:["Instalar piso","Azulejo de baño o cocina","Reparar piezas levantadas o rotas"], k:"piso azulejo loseta porcelanato instalador"},
+    {id:"tablaroca", e:"📐", n:"Tablaroca y plafones", d:"Muros divisorios, plafones, nichos y repisas.",
+      p:["Muro divisorio","Plafón","Nichos o repisas","Reparación"], k:"tablaroca durock plafon muro nicho"},
+    {id:"herreria", e:"⚙️", n:"Herrería", d:"Protecciones, puertas, portones y soldadura.",
+      p:["Protecciones","Puerta o portón","Barandal","Pérgola","Reparación / soldadura"], k:"herrero herreria proteccion porton reja soldadura barandal"},
+    {id:"carpinteria", e:"🪚", n:"Carpintería", d:"Closets, cocinas, puertas y reparación de muebles.",
+      p:["Closet","Cocina integral","Puerta de madera","Reparar mueble"], k:"carpintero carpinteria closet cocina mueble madera puerta"},
+    {id:"canceleria", e:"🚿", n:"Vidrio y aluminio", d:"Canceles de baño, ventanas, vidrios y espejos.",
+      p:["Cancel de baño","Ventanas","Vidrio roto","Espejo"], k:"cancel canceleria aluminio vidrio ventana espejo vidriero"},
+    {id:"techos", e:"⛱️", n:"Techos, toldos y pérgolas", d:"Techos de lámina o policarbonato, toldos y domos.",
+      p:["Techo para cochera o patio","Toldo","Pérgola","Domo"], k:"techo toldo pergola domo policarbonato lamina sombra cochera"},
+    {id:"solar", e:"☀️", n:"Paneles y calentadores solares", d:"Ahorra en luz y gas con energía solar.",
+      p:["Cotizar paneles solares","Calentador solar","Mantenimiento"], k:"panel paneles solares calentador solar ahorro luz cfe"},
+  ]},
+  {grupo:"🔒 Tecnología y seguridad", servicios:[
+    {id:"camaras", e:"📹", n:"Cámaras y alarmas", d:"Instalación de cámaras, alarmas y timbres con video.",
+      p:["Instalar cámaras","Revisar sistema existente","Alarma","Timbre con cámara / videoportero"], k:"camaras cctv seguridad alarma videoportero timbre"},
+    {id:"internet", e:"📶", n:"Internet y WiFi", d:"Mejora la señal en toda tu casa.",
+      p:["El WiFi no llega a toda la casa","Instalar repetidor o mesh","Cableado de red"], k:"internet wifi señal red repetidor modem"},
+    {id:"tv", e:"📺", n:"Instalación de TV y soportes", d:"Montaje de pantallas, ocultar cables y audio.",
+      p:["Montar TV en pared","Ocultar cables","Barra de sonido / audio"], k:"tv pantalla television soporte montar"},
+    {id:"porton", e:"🚗", n:"Motores para portón", d:"Instalación, reparación y controles.",
+      p:["Instalar motor","Reparar motor","Controles adicionales"], k:"motor porton cochera control automatico"},
+  ]},
+  {grupo:"🙋 Pequeños arreglos y apoyo", servicios:[
+    {id:"todologo", e:"🧰", n:"Maestro todólogo", d:"Pequeños arreglos: colgar, armar, ajustar.",
+      p:["Colgar cuadros, repisas o espejos","Armar muebles","Arreglos menores varios"], k:"todologo handyman arreglos colgar armar muebles"},
+    {id:"fletes", e:"🚚", n:"Fletes y mudanzas", d:"Mudanzas, fletes y retiro de escombro o cacharros.",
+      p:["Mudanza","Flete de muebles","Retiro de escombro","Retiro de cacharros"], k:"flete mudanza escombro cacharros camioneta"},
+  ]},
+];
+const SERVICIOS_CASA = CASA.flatMap(g => g.servicios);
+
 /* ============ LÓGICA ============ */
 const $ = s => document.querySelector(s);
 const DIAS = ["domingo","lunes","martes","miércoles","jueves","viernes","sábado"];
@@ -395,7 +535,7 @@ function abrir(n){
   };
   m.querySelectorAll("input").forEach(i=>i.addEventListener("change",upd));
   m.querySelector(".m-close").onclick = () => m.close();
-  m.addEventListener("click", ev => { if (ev.target===m) m.close(); });
+  m.onclick = ev => { if (ev.target===m) m.close(); };
   upd();
   m.showModal();
 }
@@ -405,12 +545,112 @@ function btnTxt(n, k){
   return `💬 ${verbo} por WhatsApp${k?` (${k})`:""}`;
 }
 
+/* ---- Mejorando la casa ---- */
+const matchServ = (s, q) => {
+  const hay = norm([s.n, s.d, s.k, s.p.join(" ")].join(" "));
+  return q.split(/\s+/).every(w => hay.includes(w));
+};
+
+function renderCasa(){
+  const q = norm($("#q").value.trim());
+  const html = CASA.map(g => {
+    const ss = q ? g.servicios.filter(s => matchServ(s,q)) : g.servicios;
+    if (!ss.length) return "";
+    return `<h2 class="grupo">${g.grupo}</h2><div class="sgrid">${ss.map(s => {
+      const np = (s.prov||[]).length;
+      return `<button class="stile" data-sid="${s.id}"><span class="ico">${s.e}</span><b>${s.n}</b><small>${s.d}</small>
+        <span class="badge ${np?"ok":"new"}">${np?`✓ ${np} proveedor${np>1?"es":""} en Bonaterra`:"Te conseguimos uno →"}</span></button>`;
+    }).join("")}</div>`;
+  }).join("");
+  $("#casa-list").innerHTML = html || `<div class="empty">No encontramos “${$("#q").value}”.<br>
+    <a class="btn-wa" style="max-width:320px;margin:14px auto 0" target="_blank" rel="noopener"
+    href="${waCasa({n:$("#q").value, id:"otro"}, [], "", "")}">💬 Pídelo por WhatsApp</a></div>`;
+}
+
+function waCasa(s, probs, urg, extra){
+  let txt = `Hola 👋 Vengo de Vecinos Bonaterra · Mejorando la casa.\nServicio: ${s.n}`;
+  if (probs.length) txt += `\nNecesito: ${probs.join(", ")}`;
+  if (urg) txt += `\nUrgencia: ${urg}`;
+  if (extra) txt += `\nDetalles: ${extra}`;
+  txt += `\n(ref: ${REF}-casa-${s.id})`;
+  return `https://wa.me/${WA_PLATAFORMA}?text=${encodeURIComponent(txt)}`;
+}
+
+function abrirServicio(s){
+  const m = $("#modal");
+  const provs = (s.prov||[]).map(id => NEGOCIOS.find(n=>n.id===id)).filter(Boolean);
+  m.innerHTML = `
+    <div class="m-head"><div class="thumb emoji" style="aspect-ratio:16/6">${s.e}</div><button class="m-close" aria-label="Cerrar">✕</button></div>
+    <div class="m-body">
+      <h2>${s.n}</h2>
+      <p class="desc">${s.d}</p>
+      <div class="sec"><h3>¿Qué necesitas?</h3>
+        ${s.p.map(x=>`<div class="item"><label><input type="checkbox" name="p" value="${x}">${x}</label></div>`).join("")}
+      </div>
+      <div class="sec"><h3>¿Qué tan urgente es?</h3>
+        <div class="urg">
+          <label><input type="radio" name="u" value="Urgente (hoy)">🔴 Hoy</label>
+          <label><input type="radio" name="u" value="Esta semana" checked>🟡 Esta semana</label>
+          <label><input type="radio" name="u" value="Sin prisa / cotizar">🟢 Sin prisa</label>
+        </div>
+      </div>
+      <div class="sec"><h3>Cuéntanos más (opcional)</h3>
+        <textarea id="extra" placeholder="Ej: la fuga está debajo del lavabo de la cocina"></textarea>
+      </div>
+      <div class="sec"><h3>Proveedores en Bonaterra</h3>
+        ${provs.length ? provs.map(n=>`<button class="prov" data-nid="${n.id}"><span class="av" style="background-image:url('${n.imagen}')"></span>
+          <span><b>${n.nombre}</b><br><small>Ver perfil ›</small></span></button>`).join("")
+        : `<div class="callout">Todavía no tenemos un proveedor fijo para este servicio, pero mándanos tu solicitud: <b>te conseguimos a alguien de confianza</b> y te confirmamos por WhatsApp.</div>`}
+      </div>
+    </div>
+    <div class="cta"><a class="btn-wa" id="wa-btn" target="_blank" rel="noopener"></a></div>`;
+  const btn = m.querySelector("#wa-btn");
+  const upd = () => {
+    const probs = [...m.querySelectorAll("input[name=p]:checked")].map(i=>i.value);
+    const urg = (m.querySelector("input[name=u]:checked")||{}).value || "";
+    btn.href = waCasa(s, probs, urg, m.querySelector("#extra").value.trim());
+    btn.textContent = `💬 Solicitar ${s.n.toLowerCase()} por WhatsApp`;
+  };
+  m.querySelectorAll("input,textarea").forEach(i=>i.addEventListener("input",upd));
+  m.querySelectorAll(".prov").forEach(b=>b.onclick=()=>{ m.close(); abrir(NEGOCIOS.find(n=>n.id===b.dataset.nid)); });
+  m.querySelector(".m-close").onclick = () => m.close();
+  m.onclick = ev => { if (ev.target===m) m.close(); };
+  upd();
+  m.showModal();
+}
+
+/* En el directorio, si la búsqueda coincide con servicios del hogar, sugerirlos */
+function renderHint(){
+  const q = norm($("#q").value.trim()), h = $("#casa-hint");
+  const ss = q.length>2 ? SERVICIOS_CASA.filter(s=>matchServ(s,q)).slice(0,3) : [];
+  h.hidden = !ss.length;
+  h.innerHTML = ss.length ? `🛠️ En <b>Mejorando la casa</b>: ${ss.map(s=>`<a href="#casa/${s.id}">${s.e} ${s.n}</a>`).join(" · ")}` : "";
+}
+
+/* ---- Navegación ---- */
+function route(){
+  const [view, sid] = location.hash.replace("#","").split("/");
+  const casa = view==="casa";
+  $("#view-dir").hidden = casa; $("#view-casa").hidden = !casa;
+  document.querySelectorAll(".tab").forEach(t => t.setAttribute("aria-current", (t.dataset.view==="casa")===casa ? "page" : "false"));
+  $("#q").placeholder = casa ? "¿Qué necesitas arreglar? Ej: fuga, minisplit, alacranes…" : "¿Qué necesitas? Ej: lavado de auto, uñas, café, tamales…";
+  $("#subtitulo").textContent = casa
+    ? "Todo lo que tu casa necesita, en un solo lugar. Elige el servicio, cuéntanos qué pasa y te conectamos con alguien de confianza."
+    : "Servicios, comida y negocios de tu fraccionamiento. Encuentra lo que necesitas y pídelo por WhatsApp en un minuto.";
+  if (casa) renderCasa(); else { renderGrid(); renderHint(); }
+  if (sid) { const s = SERVICIOS_CASA.find(x=>x.id===sid); if (s) abrirServicio(s); }
+}
+window.addEventListener("hashchange", () => { $("#q").value=""; route(); window.scrollTo(0,0); });
+$("#casa-list").addEventListener("click", e => {
+  const b = e.target.closest(".stile"); if (b) abrirServicio(SERVICIOS_CASA.find(s=>s.id===b.dataset.sid));
+});
+
 /* eventos */
 $("#chips").addEventListener("click", e => {
   const b = e.target.closest(".chip"); if (!b) return;
   filtro = b.dataset.id; renderChips(); renderGrid();
 });
-$("#q").addEventListener("input", renderGrid);
+$("#q").addEventListener("input", () => location.hash.startsWith("#casa") ? renderCasa() : (renderGrid(), renderHint()));
 $("#grid").addEventListener("click", e => {
   const c = e.target.closest(".card"); if (c) abrir(NEGOCIOS.find(n=>n.id===c.dataset.id));
 });
@@ -420,7 +660,7 @@ $("#grid").addEventListener("keydown", e => {
 $("#fab").href = `https://wa.me/${WA_PLATAFORMA}?text=${encodeURIComponent("Hola 👋 Vengo de Vecinos Bonaterra, busco un servicio. (ref: "+REF+"-general)")}`;
 $("#alta").href = `https://wa.me/${WA_PLATAFORMA}?text=${encodeURIComponent("Hola, tengo un negocio en Bonaterra y quiero aparecer en el directorio. (ref: alta-proveedor)")}`;
 
-renderChips(); renderBanner(); renderGrid();
+renderChips(); renderBanner(); route();
 </script>
 </body>
 </html>
