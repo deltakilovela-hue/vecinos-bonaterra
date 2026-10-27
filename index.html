@@ -258,6 +258,15 @@ details.hours tr.today{color:var(--ink);font-weight:700}
 .urg label:has(input:focus-visible){outline:3px solid var(--terra);outline-offset:2px}
 textarea{width:100%;font:500 .95rem "Instrument Sans";padding:12px 14px;border-radius:var(--r-sm);border:1.5px solid var(--line);background:var(--surface);color:var(--ink);resize:vertical;min-height:84px;outline:none}
 textarea:focus{border-color:var(--ink)}
+.opt.cart{cursor:default}
+.opt.cart:has(output:not([value="0"])){border-color:var(--ink);background:color-mix(in oklab,var(--lime) 28%,var(--surface))}
+.step{display:flex;align-items:center;gap:2px;background:var(--surface-2);border-radius:999px;padding:3px;flex:0 0 auto}
+.step button{width:36px;height:36px;border-radius:50%;border:none;background:var(--surface);font-size:1.2rem;font-weight:700;cursor:pointer;display:grid;place-items:center;box-shadow:var(--shadow);transition:transform .1s}
+.step button:active{transform:scale(.9)}
+.step button.minus[disabled]{opacity:.35;cursor:default;box-shadow:none}
+.step output{min-width:24px;text-align:center;font-family:"Bricolage Grotesque";font-weight:800;font-size:1.05rem}
+.cart-sum{display:flex;justify-content:space-between;align-items:baseline;gap:10px;margin-bottom:10px;font-size:.88rem;color:var(--muted)}
+.cart-sum b{font-family:"Bricolage Grotesque";font-size:1.5rem;color:var(--ink);letter-spacing:-.02em}
 .prov{display:flex;align-items:center;gap:12px;padding:10px;border:1.5px solid var(--line);border-radius:var(--r-sm);margin-bottom:8px;width:100%;background:none;text-align:left;cursor:pointer;min-height:60px}
 .prov:hover{border-color:var(--ink)}
 .prov img{width:46px;height:46px;border-radius:12px;object-fit:cover}
@@ -402,7 +411,7 @@ const CATEGORIAS = [
   {id:"limpieza", label:"Tenis y accesorios", i:"footprints"},
   {id:"mercadito",label:"Mercadito",          i:"shopping-basket"},
 ];
-const QUICK = ["Plomero","Inyección","Hamburguesas","Niñera","Minisplit","Café","Pasear perro","Alacranes"];
+const QUICK = ["Carne asada","Plomero","Inyección","Lavado de auto","Niñera","Minisplit","Cerrajero","Café"];
 
 const NEGOCIOS = [
   {
@@ -555,6 +564,80 @@ const NEGOCIOS = [
     keywords:"tenis sneakers zapatos limpieza gorra bolsa accesorios",
   },
   {
+    id:"don-carbon",
+    nombre:"Don Carbón",
+    categorias:["comida"],
+    descripcion:"Carnes asadas al carbón por kilo o medio kilo, con todo y guarniciones. Envío gratis en Bonaterra.",
+    imagen:"img/doncarbon.jpg",
+    tipo:"pedido",
+    carrito:true,
+    entrega:"Envío gratis en Bonaterra",
+    pagos:["Efectivo","Tarjeta"],
+    horario:[["12:00","16:00"],null,null,["12:00","16:00"],["12:00","16:00"],["12:00","16:00"],["12:00","16:00"]],
+    incluye:"Cada kilo o medio kilo incluye: tortillas, cebollita asada, chiles toreados, salsas y 1 chorizo corona.",
+    secciones:[
+      {titulo:"Arrachera", items:[
+        {n:"1 kg", m:"Arrachera 1 kg", p:240},
+        {n:"½ kg", m:"Arrachera ½ kg", p:140}]},
+      {titulo:"Tradicional (peinecillo o lomo)", items:[
+        {n:"Peinecillo · 1 kg", m:"Tradicional peinecillo 1 kg", p:280},
+        {n:"Peinecillo · ½ kg", m:"Tradicional peinecillo ½ kg", p:155},
+        {n:"Lomo · 1 kg", m:"Tradicional lomo 1 kg", p:280},
+        {n:"Lomo · ½ kg", m:"Tradicional lomo ½ kg", p:155}]},
+      {titulo:"Sirloin", items:[
+        {n:"1 kg", m:"Sirloin 1 kg", p:290},
+        {n:"½ kg", m:"Sirloin ½ kg", p:165}]},
+      {titulo:"Extras", items:[
+        {n:"Chistorra", p:75},
+        {n:"Papa con carne", p:90},
+        {n:"Papa con queso y mantequilla", p:70},
+        {n:"Frijoles puercos ½ L", m:"Frijoles puercos ½", p:50},
+        {n:"Frijoles puercos ¼ L", m:"Frijoles puercos ¼", p:25},
+        {n:"Chorizo corona (1 pz)", p:25},
+        {n:"Tortillas extra (½ kg)", p:15}]},
+    ],
+    keywords:"carne asada carnes asadas arrachera sirloin sirlon peinecillo lomo carbon parrillada chistorra frijoles puercos domingo",
+  },
+  {
+    id:"brio-car-wash",
+    nombre:"Brio Car Wash Móvil",
+    categorias:["auto"],
+    descripcion:"Lavado de autos a domicilio, exclusivo para Bonaterra. “Tú aprovechas tu tiempo, nosotros lavamos tu auto.”",
+    imagen:"img/brio.jpg",
+    tipo:"servicio",
+    secciones:[{titulo:"Servicios", items:[
+      {n:"Lavado exterior e interior"},{n:"Aspirado profundo"},{n:"Aromatización"},{n:"Brillo de llantas y plásticos"}]}],
+    nota:"Precio según el tamaño del auto. Llegan a tu casa en moto.",
+    keywords:"lavado auto carro coche car wash a domicilio aspirado interiores llantas",
+  },
+  {
+    id:"jr-minisplit",
+    nombre:"JR Minisplit y Refrigeración",
+    responsable:"Ing. Juan Ramón Iñiguez Villa",
+    categorias:["hogar"],
+    descripcion:"Servicio, reparación y venta de minisplits residenciales y comerciales, y cuartos fríos. Garantía en sus trabajos.",
+    imagen:"img/jr-minisplit.jpg", logo:"#ffffff",
+    tipo:"servicio",
+    secciones:[
+      {titulo:"Minisplit", items:[
+        {n:"Mantenimiento / limpieza"},{n:"No enfría o falla"},{n:"Instalación"},{n:"Venta de equipo nuevo"}]},
+      {titulo:"Comercial", items:[{n:"Minisplit comercial"},{n:"Cuartos fríos"}]},
+    ],
+    keywords:"minisplit clima aire acondicionado refrigeracion mantenimiento instalacion cuarto frio tecnico",
+  },
+  {
+    id:"cerrajeria-carrillo",
+    nombre:"Cerrajería Carrillo",
+    categorias:["hogar","auto"],
+    descripcion:"Cerrajería 24 horas: apertura de autos y casas, instalación de chapas y más.",
+    imagen:"img/cerrajeria-carrillo.jpg", logo:"#0b0b0b",
+    tipo:"servicio",
+    h24:true,
+    secciones:[{titulo:"Servicios", items:[
+      {n:"Me quedé afuera de mi casa"},{n:"Me quedé afuera de mi auto"},{n:"Instalación o cambio de chapa"},{n:"Otro"}]}],
+    keywords:"cerrajero cerrajeria llave chapa abrir puerta auto casa 24 horas urgente",
+  },
+  {
     id:"mercadito",
     nombre:"Mercadito del Parque Lineal",
     categorias:["mercadito","comida"],
@@ -580,7 +663,7 @@ const CASA = [
       p:["Fuga de agua","El WC no funciona o tira agua","Llave o regadera gotea","Instalar o cambiar muebles de baño","No llega agua / bomba o tinaco no llena","Cambio de tubería"], k:"plomero fontanero fuga agua baño wc taza regadera lavabo tuberia"},
     {id:"electricidad", i:"zap", n:"Electricista", d:"Apagones, contactos, lámparas y ventiladores.",
       p:["Se bota la pastilla / apagones","Contacto o apagador no sirve","Instalar lámpara o ventilador","Olor a quemado / cortocircuito","Ampliar o revisar instalación","Cambio de centro de carga"], k:"electricista luz electrico contacto apagador pastilla lampara ventilador corto"},
-    {id:"cerrajeria", i:"key-round", n:"Cerrajería", d:"Aperturas, cambio de chapas y copias.",
+    {id:"cerrajeria", i:"key-round", n:"Cerrajería", d:"Aperturas, cambio de chapas y copias. Servicio 24 horas.", prov:["cerrajeria-carrillo"],
       p:["Me quedé afuera","Cambiar chapa o cilindro","Chapa de seguridad","Abrir caja fuerte o mueble"], k:"cerrajero llave chapa puerta abrir"},
     {id:"desazolve", i:"waves", n:"Desazolve y drenaje", d:"Drenajes tapados, registros y malos olores.",
       p:["Drenaje o coladera tapada","Registro desbordado","Malos olores","Limpieza preventiva de registros"], k:"desazolve drenaje tapado coladera registro olor caño"},
@@ -590,7 +673,7 @@ const CASA = [
       p:["Lavadora","Secadora","Refrigerador","Estufa u horno","Microondas","Otro aparato"], k:"lavadora refri refrigerador estufa secadora reparacion tecnico linea blanca"},
   ]},
   {grupo:"Clima y confort", gi:"thermometer-snowflake", servicios:[
-    {id:"minisplit", i:"air-vent", n:"Aire acondicionado / minisplit", d:"Limpieza, mantenimiento, instalación y recarga de gas.",
+    {id:"minisplit", i:"air-vent", n:"Aire acondicionado / minisplit", d:"Limpieza, mantenimiento, instalación y recarga de gas.", prov:["jr-minisplit"],
       p:["Limpieza / mantenimiento","No enfría","Gotea agua","Instalar equipo nuevo","Recarga de gas","Hace ruido"], k:"minisplit clima aire acondicionado mantenimiento enfria"},
     {id:"mosquiteros", i:"bug", n:"Mosquiteros", d:"Mosquiteros nuevos y cambio de malla.",
       p:["Mosquiteros nuevos","Cambiar malla rota","Mosquitero para puerta"], k:"mosquitero malla moscos zancudos ventana"},
@@ -729,6 +812,7 @@ const catOf = n => CATEGORIAS.find(c => c.id===n.categorias[0]);
 function estado(n){
   const now = new Date(), d = now.getDay(), mins = now.getHours()*60+now.getMinutes();
   if (n.soloDia !== undefined) return d===n.soloDia ? {on:true, txt:"Hoy hay mercadito"} : {on:false, txt:"Solo miércoles"};
+  if (n.h24) return {on:true, txt:"Abierto 24 horas"};
   if (!n.horario) return null;
   const h = n.horario[d];
   if (h && mins>=toMin(h[0]) && mins<toMin(h[1])) return {on:true, txt:`Abierto · cierra ${fmt12(h[1])}`};
@@ -875,17 +959,22 @@ function abrir(n){
         <div class="facts">${facts}</div>
         ${hours}
         ${n.pendiente?`<p class="pend">${ico("info")}${esc(n.pendiente)}</p>`:""}
+        ${n.incluye?`<div class="callout" style="margin-top:12px">${ico("flame")}<span>${esc(n.incluye)}</span></div>`:""}
         <p style="color:var(--muted);margin:10px 0 0">${esc(n.descripcion)}</p>
         ${(n.secciones||[]).map(s=>`
           <div class="block"><h3>${esc(s.titulo)}</h3>
-          ${s.items.map(it=>`<label class="opt"><input type="checkbox" value="${esc(it.n)}">
+          ${s.items.map(it=> n.carrito
+            ? `<div class="opt cart" data-m="${esc(it.m||it.n)}" data-p="${it.p||0}"><span class="t">${esc(it.n)}<small>${it.p?money(it.p):""}${it.d?" · "+esc(it.d):""}</small></span>
+                <div class="step"><button type="button" class="minus" aria-label="Quitar ${esc(it.m||it.n)}" disabled>−</button><output value="0">0</output><button type="button" class="plus" aria-label="Agregar ${esc(it.m||it.n)}">+</button></div></div>`
+            : `<label class="opt"><input type="checkbox" value="${esc(it.n)}">
             <span class="t">${esc(it.n)}${it.d?`<small>${esc(it.d)}</small>`:""}</span>${it.p?`<span class="p">${money(it.p)}</span>`:""}</label>`).join("")}
           </div>`).join("")}
         ${n.nota?`<p class="note">${esc(n.nota)}</p>`:""}
       </div>
     </div>
-    <div class="cta"><a class="btn-wa" id="wa-btn" target="_blank" rel="noopener"></a></div>`;
+    <div class="cta">${n.carrito?`<div class="cart-sum" id="cart-sum"></div>`:""}<a class="btn-wa" id="wa-btn" target="_blank" rel="noopener"></a></div>`;
   const btn = m.querySelector("#wa-btn");
+  if (n.carrito) return wireCart(m, n, btn);
   const verbo = {servicio:"Solicitar servicio", cita:"Agendar cita", pedido:"Hacer pedido"}[n.tipo] || "Escribir";
   const upd = () => {
     const sel = [...m.querySelectorAll("input:checked")].map(i=>i.value);
@@ -894,6 +983,30 @@ function abrir(n){
     icons();
   };
   m.querySelectorAll("input").forEach(i=>i.addEventListener("change",upd));
+  wireSheet(m); upd(); m.showModal();
+}
+
+/* ---------- Carrito (menú interactivo) ---------- */
+function wireCart(m, n, btn){
+  const sum = m.querySelector("#cart-sum");
+  const upd = () => {
+    const lines = [...m.querySelectorAll(".opt.cart")].map(r => ({m:r.dataset.m, p:+r.dataset.p, q:+r.querySelector("output").value})).filter(l => l.q>0);
+    const total = lines.reduce((a,l) => a + l.p*l.q, 0), piezas = lines.reduce((a,l) => a + l.q, 0);
+    sum.innerHTML = piezas ? `<span>${piezas} producto${piezas>1?"s":""}${n.entrega?" · "+esc(n.entrega):""}</span><b>${money(total)}</b>`
+                           : `<span>Agrega lo que se te antoje</span><b>$0</b>`;
+    let txt = `Hola 👋 Vengo de la página de Vecinos Bonaterra.\nNegocio: ${n.nombre}`;
+    txt += lines.length ? `\n\nMi pedido:\n${lines.map(l=>`• ${l.q}× ${l.m} — ${money(l.p*l.q)}`).join("\n")}\n\nTotal: ${money(total)}` : `\nQuiero hacer un pedido.`;
+    txt += `\n(ref: ${REF}-${n.id})`;
+    btn.href = `https://wa.me/${WA_PLATAFORMA}?text=${encodeURIComponent(txt)}`;
+    btn.innerHTML = `${ico("message-circle")}${piezas?`Pedir por WhatsApp · ${money(total)}`:"Hacer pedido por WhatsApp"}`;
+    icons();
+  };
+  m.querySelectorAll(".opt.cart").forEach(r => {
+    const out = r.querySelector("output"), minus = r.querySelector(".minus");
+    const set = v => { out.value = v; out.textContent = v; out.setAttribute("value", v); minus.disabled = v===0; upd(); };
+    r.querySelector(".plus").onclick = () => set(+out.value + 1);
+    minus.onclick = () => set(Math.max(0, +out.value - 1));
+  });
   wireSheet(m); upd(); m.showModal();
 }
 
